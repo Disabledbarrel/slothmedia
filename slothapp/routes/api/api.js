@@ -33,6 +33,20 @@ router.get('/playlists', (req, res) => {
         }
     });
 });
+// Get single Playlist
+router.get('/playlists/:id', (req, res) => {
+    const id = req.params.id;
+    const select_playlist_id_query = `SELECT * from playlist WHERE playlist_id=?`; // Skyddar mot SQL-injektioner
+    connection.query(select_playlist_id_query, [id], (err, results) => {
+        if(err) {
+            return res.send(err)
+        } else {
+            return res.json({
+                data: results
+            })
+        }
+    });
+});
 // Create Playlist
 router.post('/playlists', (req, res) => {
     const playlist_name  = req.body.playlist_name; 
@@ -47,5 +61,32 @@ router.post('/playlists', (req, res) => {
         }
     });
 });
+// Update Playlist
+router.put('/playlists/:id', (req, res) => {
+    const id = req.params.id;
+    const playlist_name = req.body.playlist_name;
+    //const user_id = req.body.user_id; ska plockas från session
+    const public_type = req.body.public_type;
+    const update_playlist_query = `UPDATE playlist SET playlist_name=?, public_type=? WHERE playlist_id=?`;
+    connection.query(update_playlist_query, [playlist_name, public_type, id], (err, results) => {
+        if(err) {
+            return res.send(err)
+        } else {
+            return res.send('Låtlista uppdaterad!')
+        }
+    });
+});
+// Delete Playlist
+router.delete('/playlists/:id', (req, res) => {
+    const id = req.params.id;
+    const delete_playlist_query = `DELETE FROM playlist WHERE playlist_id=?`;
+    connection.query(delete_playlist_query, [id], (err, results) => {
+        if(err) {
+            return res.send(err)
+        } else {
+            return res.send('Låtlista raderad!')
+        }
+    });
+})
 
 module.exports = router;
