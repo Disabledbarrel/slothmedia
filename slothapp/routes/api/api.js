@@ -1,5 +1,8 @@
 const express = require("express");
 const mysql = require('mysql');
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const { check, validationResult } = require('express-validator');
 
 const router = express.Router();
 
@@ -20,7 +23,49 @@ connection.connect(err => {
 // Refererar till uppsatt route
 router.get('/', (req, res) => res.send('Hello World'));
 
-// Get Playlists
+// @route POST api/users
+// @descr register user
+// @access Public
+router.post('/users', [
+    check('user_name', 'User name is required').not().isEmpty(),
+    check('email', 'Provided email is not valid').isEmail(),
+    check('password', 'Password needs to be 6 or more characters').isLength({ min: 6 })
+], 
+(req, res) => {
+    const errors = validationResult(req);
+    if(!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() }); // Skickar tillbaka felmeddelanden om fälten inte är korrekt ifyllda
+    }
+
+    const email  = req.body.email; 
+    const password = req.body.password;
+    const user_name = req.body.user_name;
+
+    // Kryptera lösenord
+    let hash = bcrypt.hashSync(password, 10);
+
+    // Kontrollera om användare redan finns
+    const user_query = `SELECT * FROM appuser WHERE email=?`
+    connection.query(user_query, [email], (err, results) => {
+        if(results.length == 0) {
+            const insert_user_query = `INSERT INTO appuser (email, password, user_name) VALUES(?, ?, ?)`; // Skyddar mot SQL-injektioner
+            connection.query(insert_user_query, [email, hash, user_name],(err, results) => {
+                if(err) {
+                    return res.send(err)
+                } else {
+                    return res.send('User registered!')
+                }
+            });
+        } else {
+            return res.status(400).json({ errors: [{msg: 'User already exists'}] });
+        }
+    });
+    
+})
+
+// @route GET api/playlists
+// @descr read all playlists
+// @access Public/Auth
 router.get('/playlists', (req, res) => {
     const select_all_playlists_query = 'SELECT * from playlist';
     connection.query(select_all_playlists_query, (err, results) => {
