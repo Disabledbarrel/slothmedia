@@ -2,6 +2,7 @@ const express = require("express");
 const mysql = require('mysql');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const config = require('config');
 const { check, validationResult } = require('express-validator');
 
 const router = express.Router();
@@ -41,11 +42,11 @@ router.post('/users', [
     const password = req.body.password;
     const user_name = req.body.user_name;
 
-    // Kryptera lösenord
+    // Kryptera lösenord med salt
     let hash = bcrypt.hashSync(password, 10);
 
     // Kontrollera om användare redan finns
-    const user_query = `SELECT * FROM appuser WHERE email=?`
+    const user_query = `SELECT * FROM appuser WHERE email=?`;
     connection.query(user_query, [email], (err, results) => {
         if(results.length == 0) {
             const insert_user_query = `INSERT INTO appuser (email, password, user_name) VALUES(?, ?, ?)`; // Skyddar mot SQL-injektioner
@@ -62,6 +63,47 @@ router.post('/users', [
     });
     
 })
+
+// @route POST api/users/login
+// @descr login user
+// @access Public
+router.post('/users/login', (req, res) => {
+    const email  = req.body.email; 
+    const password = req.body.password;
+    const user_query = `SELECT * FROM appuser WHERE email=?`;
+    connection.query(user_query, [email], (err, results) => {
+        if(err) {
+            return res.send(err);
+        } else {
+            // Kolla om användare finns
+            if(results.length != 0) {
+                let hash = results[0].password;
+                if(bcrypt.compareSync(password, hash)) {
+                    // Skapar jwt om rätt lösenord
+                    const payload = {
+                        user: {
+                            id: results[0].user_id
+                        }
+                    }
+                    jwt.sign(payload, 
+                        config.get('jwtToken'),
+                        { expiresIn: 360000 },
+                        (err, token) => {
+                            if(err) return res.send(err);
+                            return res.json({ token });
+                        });
+                } else {
+                    return res.send('No match!');
+                }
+            } else {
+                return res.json({
+                    data: 'User not found'
+                });
+            }
+        }
+    });
+});
+
 
 // @route GET api/playlists
 // @descr read all playlists
