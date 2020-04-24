@@ -3,6 +3,7 @@ const mysql = require('mysql');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const config = require('config');
+const auth = require('../../middleware/auth');
 const { check, validationResult } = require('express-validator');
 
 const router = express.Router();
@@ -48,17 +49,21 @@ router.post('/users', [
     // Kontrollera om användare redan finns
     const user_query = `SELECT * FROM appuser WHERE email=?`;
     connection.query(user_query, [email], (err, results) => {
-        if(results.length == 0) {
-            const insert_user_query = `INSERT INTO appuser (email, password, user_name) VALUES(?, ?, ?)`; // Skyddar mot SQL-injektioner
-            connection.query(insert_user_query, [email, hash, user_name],(err, results) => {
-                if(err) {
-                    return res.send(err)
-                } else {
-                    return res.send('User registered!')
-                }
-            });
+        if(err) {
+            return res.send(err);
         } else {
-            return res.status(400).json({ errors: [{msg: 'User already exists'}] });
+            if(results.length == 0) {
+                const insert_user_query = `INSERT INTO appuser (email, password, user_name) VALUES(?, ?, ?)`; // Skyddar mot SQL-injektioner
+                connection.query(insert_user_query, [email, hash, user_name],(err, results) => {
+                    if(err) {
+                        return res.send(err)
+                    } else {
+                        return res.send('User registered!')
+                    }
+                });
+            } else {
+                return res.status(400).json({ errors: [{msg: 'User already exists'}] });
+            }
         }
     });
     
@@ -67,10 +72,18 @@ router.post('/users', [
 // @route POST api/users/login
 // @descr login user
 // @access Public
-router.post('/users/login', (req, res) => {
+router.post('/users/login', [
+    check('email', 'Provided email is not valid').isEmail(),
+    check('password', 'Password is required').exists()
+], (req, res) => {
+    const errors = validationResult(req);
+    if(!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() }); // Skickar tillbaka felmeddelanden om fälten inte är korrekt ifyllda
+    }
+
     const email  = req.body.email; 
     const password = req.body.password;
-    const user_query = `SELECT * FROM appuser WHERE email=?`;
+    const user_query = `SELECT * FROM appuser WHERE email=?`; // Skyddar mot SQL-injektioner
     connection.query(user_query, [email], (err, results) => {
         if(err) {
             return res.send(err);
@@ -93,7 +106,7 @@ router.post('/users/login', (req, res) => {
                             return res.json({ token });
                         });
                 } else {
-                    return res.send('No match!');
+                    return res.status(400).json({ errors: [{msg: 'Invalid credentials'}] });
                 }
             } else {
                 return res.json({
@@ -106,11 +119,13 @@ router.post('/users/login', (req, res) => {
 
 
 // @route GET api/playlists
-// @descr read all playlists
-// @access Public/Auth
-router.get('/playlists', (req, res) => {
-    const select_all_playlists_query = 'SELECT * from playlist';
-    connection.query(select_all_playlists_query, (err, results) => {
+// @descr read all playlists from current user
+// @access Auth
+router.get('/playlists', auth, (req, res) => {
+    const user_id = req.user.id;
+    
+    const select_all_playlists_query = 'SELECT * from playlist WHERE user_id = ?'; // Skyddar mot SQL-injektioner
+    connection.query(select_all_playlists_query, [user_id], (err, results) => {
         if(err) {
             return res.send(err)
         } else {
@@ -120,105 +135,137 @@ router.get('/playlists', (req, res) => {
         }
     });
 });
-// Get single Playlist
-router.get('/playlists/:id', (req, res) => {
-    const id = req.params.id;
-    const select_playlist_id_query = `SELECT * from playlist WHERE playlist_id=?`; // Skyddar mot SQL-injektioner
-    connection.query(select_playlist_id_query, [id], (err, results) => {
-        if(err) {
-            return res.send(err)
-        } else {
-            return res.json({
-                data: results
-            })
-        }
-    });
-});
-// Create Playlist
-router.post('/playlists', (req, res) => {
+// @route POST api/playlists
+// @descr create playlist for current user
+// @access Auth
+router.post('/playlists', auth, (req, res) => {
     const playlist_name  = req.body.playlist_name; 
-    const user_id = req.body.user_id;
+    const user_id = req.user.id;
     const public_type = req.body.public_type;
     const insert_playlist_query = `INSERT INTO playlist (playlist_name, user_id, public_type) VALUES(?, ?, ?)`; // Skyddar mot SQL-injektioner
     connection.query(insert_playlist_query, [playlist_name, user_id, public_type],(err, results) => {
         if(err) {
-            return res.send(err)
+            return res.send(err);
         } else {
-            return res.send('Playlist created!')
+            return res.send('Playlist created!');
         }
     });
 });
-// Update Playlist
-router.put('/playlists/:id', (req, res) => {
-    const id = req.params.id;
+// @route PUT api/playlists/:id
+// @descr update playlist for current user
+// @access Auth
+router.put('/playlists/:id', auth, (req, res) => {
+    const playlist_id = req.params.id;
     const playlist_name = req.body.playlist_name;
-    //const user_id = req.body.user_id; ska plockas från session
+    const user_id = req.user.id; 
     const public_type = req.body.public_type;
-    const update_playlist_query = `UPDATE playlist SET playlist_name=?, public_type=? WHERE playlist_id=?`; // Skyddar mot SQL-injektioner
-    connection.query(update_playlist_query, [playlist_name, public_type, id], (err, results) => {
+    const update_playlist_query = `UPDATE playlist SET playlist_name=?, public_type=? WHERE playlist_id=? AND user_id=?`; // Skyddar mot SQL-injektioner
+    connection.query(update_playlist_query, [playlist_name, public_type, playlist_id, user_id], (err, results) => {
         if(err) {
-            return res.send(err)
+            return res.send(err);
         } else {
-            return res.send('Playlist updated!')
+            if(results.changedRows == 0) {
+                return res.send('SQL query not correct');
+            }
+            return res.json({
+                data: 'Playlist updated!'
+            });
         }
     });
 });
-// Delete Playlist
-router.delete('/playlists/:id', (req, res) => {
-    const id = req.params.id;
-    const delete_playlist_query = `DELETE FROM playlist WHERE playlist_id=?`;
-    connection.query(delete_playlist_query, [id], (err, results) => {
+// @route DELETE api/playlists/:id
+// @descr delete playlist for current user
+// @access Auth
+router.delete('/playlists/:id', auth, (req, res) => {
+    const playlist_id = req.params.id;
+    const user_id = req.user.id;
+    const delete_playlist_query = `DELETE FROM playlist WHERE playlist_id=? AND user_id=?`;
+    connection.query(delete_playlist_query, [playlist_id, user_id], (err, results) => {
         if(err) {
-            return res.send(err)
+            return res.send(err);
         } else {
-            return res.send('Playlist deleted!')
+            return res.json({
+                data: 'Playlist deleted!'
+            });
         }
     });
 })
 
-// Get songs
-router.get('/songs', (req, res) => {
-    const select_all_songs_query = 'SELECT * from song';
-    connection.query(select_all_songs_query, (err, results) => {
+// @route GET api/playlists/:id/songs
+// @descr read all songs for playlist owned by current user
+// @access Auth
+router.get('/playlists/:id/songs', auth, (req, res) => {
+    const user_id = req.user.id;
+    const playlist_id = req.params.id;
+    const select_playlist_query = `SELECT user_id, public_type FROM playlist WHERE playlist_id=?`; // Skyddar mot SQL-injektioner
+    connection.query(select_playlist_query, [playlist_id], (err, results) => {
         if(err) {
-            return res.send(err)
+            return res.send(err);
         } else {
-            return res.json({
-                data: results
-            })
+            if(results.length > 0) {
+                if(user_id == results[0].user_id || results[0].public_type == true) {
+                    const select_songs_query = 'SELECT * from song WHERE playlist_id = ?'; // Skyddar mot SQL-injektioner
+                    connection.query(select_songs_query, [playlist_id], (err, results) => {
+                        if(err) {
+                            return res.send(err);
+                        } else {
+                            return res.json({
+                                data: results
+                            });
+                        }
+                    });
+                } else {
+                    return res.json({
+                        data: 'access denied'
+                    });
+                }
+            } else {
+                return res.send('No match');
+            }  
         }
     });
 });
-// Get single song
-router.get('/songs/:id', (req, res) => {
-    const id = req.params.id;
-    const select_songs_id_query = `SELECT * from song WHERE song_id=?`; // Skyddar mot SQL-injektioner
-    connection.query(select_songs_id_query, [id], (err, results) => {
-        if(err) {
-            return res.send(err)
-        } else {
-            return res.json({
-                data: results
-            })
-        }
-    });
-});
-// Add song
-router.post('/songs', (req, res) => {
+// @route POST api/playlist/:id/songs
+// @descr add song to playlist owned by current user
+// @access Auth
+router.post('/playlists/:id/songs', auth, (req, res) => {
+    const user_id = req.user.id;
+    const playlist_id = req.params.id;
+
     const song_name  = req.body.song_name; 
-    const playlist_id = req.body.playlist_id;
     const song_url = req.body.song_url;
-    const insert_song_query = `INSERT INTO song (song_name, song_url, playlist_id) VALUES(?, ?, ?)`; // Skyddar mot SQL-injektioner
-    connection.query(insert_song_query, [song_name, song_url, playlist_id],(err, results) => {
+    const select_playlist_query = 'SELECT user_id FROM playlist WHERE playlist_id=?'; // Skyddar mot SQL-injektioner
+    connection.query(select_playlist_query, [playlist_id], (err, results) => {
         if(err) {
-            return res.send(err)
+            return res.send(err);
         } else {
-            return res.send('Song added!')
+            if(results.length > 0) {
+                if(user_id == results[0].user_id) {
+                    const insert_song_query = `INSERT INTO song (song_name, song_url, playlist_id) VALUES(?, ?, ?)`; // Skyddar mot SQL-injektioner
+                    connection.query(insert_song_query, [song_name, song_url, playlist_id], (err, results) => {
+                        if(err) {
+                            return res.send(err);
+                        } else {
+                            return res.json({
+                                data: 'song added!'
+                            });
+                        }
+                    });
+                } else {
+                    return res.json({
+                        data: 'access denied'
+                    });
+                }
+            } else {
+                return res.send('No match');
+            }
         }
-    });
+    });  
 });
-// Update song
-router.put('/songs/:id', (req, res) => {
+// @route PUT api/songs/:id FORTSÄTT HÄR
+// @descr update single song
+// @access Auth
+router.put('/songs/:id', auth, (req, res) => {
     const id = req.params.id;
     const song_name = req.body.song_name;
     const song_url = req.body.song_url;
@@ -231,8 +278,10 @@ router.put('/songs/:id', (req, res) => {
         }
     });
 });
-// Delete song
-router.delete('/songs/:id', (req, res) => {
+// @route DELETE api/songs/:id
+// @descr delete single song
+// @access Auth
+router.delete('/songs/:id', auth, (req, res) => {
     const id = req.params.id;
     const delete_song_query = `DELETE FROM song WHERE song_id=?`; // Skyddar mot SQL-injektioner
     connection.query(delete_song_query, [id], (err, results) => {
@@ -244,8 +293,10 @@ router.delete('/songs/:id', (req, res) => {
     });
 });
 
-// Get user comments
-router.get('/playlists/:id/comments', (req, res) => {
+// @route GET api/playlists/:id/comments
+// @descr read comments on a playlist
+// @access Auth
+router.get('/playlists/:id/comments', auth, (req, res) => {
     const playlist_id = req.params.id;
     const select_all_comments_query = 'SELECT * from user_comment WHERE playlist_id=?'; // Skyddar mot SQL-injektioner
     connection.query(select_all_comments_query, [playlist_id], (err, results) => {
@@ -258,8 +309,10 @@ router.get('/playlists/:id/comments', (req, res) => {
         }
     });
 });
-// Add comment
-router.post('/playlists/:id/comments', (req, res) => {
+// @route POST api/playlists/:id/comments
+// @descr create comment on a playlist
+// @access Auth
+router.post('/playlists/:id/comments', auth, (req, res) => {
     const playlist_id = req.params.id; 
     const user_id = req.body.user_id; //ska plockas från session
     const content = req.body.content;
@@ -273,9 +326,12 @@ router.post('/playlists/:id/comments', (req, res) => {
     });
 });
 
-// Shared users on playlist
+// @route GET api/playlists/:id/share
+// @descr Shared users on playlist
+// @access Auth
+// 
 // Här ska användare som har tillgång till en spellista listas, tanken är att ägaren av spellistan ska vem man delat till och hur
-router.get('/playlists/:id/share', (req, res) => {
+router.get('/playlists/:id/share', auth, (req, res) => {
     const playlist_id = req.params.id;
     //const user_id = req.body.user_id; // ska plockas från session
     const select_share_query = `SELECT user_id, share_type FROM share WHERE playlist_id=?`;
@@ -292,8 +348,10 @@ router.get('/playlists/:id/share', (req, res) => {
 // My shared playlists
 // Här ska det listas vilka spellistor som en annan användre delat med mig
 
-// Share playlist
-router.post('/share', (req, res) => {
+// @route POST api/share
+// @descr Share playlist
+// @access Auth
+router.post('/share', auth, (req, res) => {
     const shared_user = req.body.shared_user;
     const playlist_id = req.body.playlist_id;
     const share_type = req.body.share_type;
