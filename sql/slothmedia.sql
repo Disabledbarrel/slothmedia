@@ -10,6 +10,7 @@ CREATE TABLE appuser (
   email varchar(155) NOT NULL,
   password varchar(155) NOT NULL,
   user_name varchar(155) NOT NULL,
+  UNIQUE (user_name),
   PRIMARY KEY (user_id)
 );
 
@@ -37,7 +38,7 @@ CREATE TABLE song (
 CREATE TABLE share (
   user_id int(11) NOT NULL,
   playlist_id int(11) NOT NULL,
-  share_type varchar(155) DEFAULT NULL,
+  share_type varchar(155) NOT NULL,
   PRIMARY KEY (user_id, playlist_id),
   FOREIGN KEY (playlist_id) REFERENCES playlist(playlist_id),
   FOREIGN KEY (user_id) REFERENCES appuser(user_id)
