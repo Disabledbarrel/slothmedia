@@ -19,4 +19,4 @@ app.use("/api", api);
 const PORT = process.env.PORT || 5000;
 
 // Starta server
-app.listen(PORT, () => console.log(`Server starded on port ${PORT}`));
+app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
