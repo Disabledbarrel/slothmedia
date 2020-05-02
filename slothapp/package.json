@@ -5,8 +5,7 @@
   "scripts": {
     "start": "node server",
     "server": "nodemon server",
-    "client": "npm start --prefix client",
-    "dev": "concurrently \"npm run server\" \"npm run client\""
+    "client": "npm start --prefix client"
   },
   "author": "Elin Larsson",
   "license": "MIT",
@@ -23,7 +22,6 @@
     "request": "^2.88.2"
   },
   "devDependencies": {
-    "concurrently": "^5.1.0",
     "nodemon": "^2.0.3"
   }
 }
