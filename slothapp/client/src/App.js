@@ -4,14 +4,14 @@ import Navbar from './components/layout/Navbar';
 import Landing from './components/layout/Landing';
 import Login from './components/auth/Login';
 import Register from './components/auth/Register';
-// Redux
-import { Provider } from 'react-redux';
-import store from './store';
+// Context
+import { AuthContext } from './contexts/AuthContext';
 
 import './App.css';
 
+
 const App = () => 
-<Provider store={store}>
+<AuthContext.Provider value={{}}>
     <Router>
         <Fragment>
             <Navbar />
@@ -24,6 +24,6 @@ const App = () =>
             </Fragment>
         </Fragment>
     </Router>
-</Provider>
+</AuthContext.Provider>
 
 export default App;
