@@ -1,7 +1,29 @@
 import React, { Fragment, useState } from 'react';
+import axios from 'axios';
+//import { AuthContext } from '../../contexts/AuthContext';
 import { Link } from 'react-router-dom';
+//import { register } from '../../actions/auth';
 
 const Register = () => {
+    // Register user action
+    const register = async (name, email, password) => {
+        const config = {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }
+
+        const body = JSON.stringify({ 'user_name': name, 'email': email, 'password': password });
+
+        try {
+            const res = await axios.post('http://localhost:5000/api/users', body, config );
+            console.log(res.data);
+        } catch (err) {
+           console.error(err.response.data.errors[0].msg);
+        }
+    }
+
+    //const { dispatch } = useContext(AuthContext);
     const [formData, setFormData] = useState({
         name: '',
         email: '',
@@ -18,7 +40,7 @@ const Register = () => {
         if(password !== confirmpassword) {
             console.log('Passwords do not match!');
         } else {
-            console.log('Success!');
+            register(name, email, password);
         }
     }
 

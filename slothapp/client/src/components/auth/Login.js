@@ -1,7 +1,12 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useState, useContext } from 'react';
+import { AuthContext } from '../../contexts/AuthContext';
 import { Link } from 'react-router-dom';
 
 const Login = () => {
+    // Context
+    useContext(AuthContext);
+
+    // State
     const [formData, setFormData] = useState({
         email: '',
         password: ''
