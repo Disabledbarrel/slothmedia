@@ -1,10 +1,13 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useState, useContext } from 'react';
 import axios from 'axios';
-//import { AuthContext } from '../../contexts/AuthContext';
 import { Link } from 'react-router-dom';
-//import { register } from '../../actions/auth';
+import { AlertContext } from '../../contexts/AlertContext';
+import { setAlert } from '../../actions/alert';
 
 const Register = () => {
+    // Konsumera context
+    const { dispatch } = useContext(AlertContext);
+
     // Register user action
     const register = async (name, email, password) => {
         const config = {
@@ -12,18 +15,15 @@ const Register = () => {
                 'Content-Type': 'application/json'
             }
         }
-
         const body = JSON.stringify({ 'user_name': name, 'email': email, 'password': password });
-
         try {
-            const res = await axios.post('http://localhost:5000/api/users', body, config );
-            console.log(res.data);
+            await axios.post('http://localhost:5000/api/users', body, config );
+            setAlert('Registration success!', 'success', dispatch);
         } catch (err) {
-           console.error(err.response.data.errors[0].msg);
+            setAlert(err.response.data.errors[0].msg, 'danger', dispatch);
         }
     }
 
-    //const { dispatch } = useContext(AuthContext);
     const [formData, setFormData] = useState({
         name: '',
         email: '',
@@ -38,7 +38,7 @@ const Register = () => {
     const onSubmit = e => {
         e.preventDefault();
         if(password !== confirmpassword) {
-            console.log('Passwords do not match!');
+            setAlert('Passwords do not match!', 'danger', dispatch);
         } else {
             register(name, email, password);
         }

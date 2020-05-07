@@ -1,10 +1,11 @@
 import React, { Fragment, useState, useContext } from 'react';
 import { AuthContext } from '../../contexts/AuthContext';
+import { login } from '../../actions/auth';
 import { Link } from 'react-router-dom';
 
 const Login = () => {
-    // Context
-    useContext(AuthContext);
+    // Konsumera context
+    const { dispatch } = useContext(AuthContext);
 
     // State
     const [formData, setFormData] = useState({
@@ -19,7 +20,7 @@ const Login = () => {
     const onSubmit = e => {
         e.preventDefault();
        
-        console.log(formData);
+        login(email, password, dispatch);
     }
 
     return (

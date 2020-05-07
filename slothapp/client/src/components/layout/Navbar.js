@@ -1,8 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+//import { AuthContext } from '../../contexts/AuthContext';
 import Logo from '../../img/logo_framed.png';
 
 const Navbar = () => {
+    // Konsumera context
+    //const { dispatch } = useContext(AuthContext);
+
     return (
         <header className="main-header bg-dark">
             <div className="header-inner bg-dark">
@@ -17,8 +21,7 @@ const Navbar = () => {
                     </ul>
                 </nav>
             </div>
-        </header>  
-          
+        </header>   
     )
 }
 
