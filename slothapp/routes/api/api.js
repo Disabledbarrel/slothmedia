@@ -22,8 +22,23 @@ connection.connect(err => {
     }
 });
 
-// Refererar till uppsatt route
-router.get('/', (req, res) => res.send('Hello World'));
+// @route GET api/auth
+// @descr Load user
+// @access Auth
+router.get('/', auth, (req, res) => {
+    const user_id = req.user.id; // Från token
+    
+    const select_user_query = 'SELECT email, user_name from appuser WHERE user_id = ?'; // Skyddar mot SQL-injektioner
+    connection.query(select_user_query, [user_id], (err, results) => {
+        if(err) {
+            return res.send(err);
+        } else {
+            return res.json({
+                data: results
+            });
+        }
+    });
+});
 
 // @route POST api/users
 // @descr register user

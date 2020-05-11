@@ -1,11 +1,14 @@
 import React, { Fragment, useState, useContext } from 'react';
 import { AuthContext } from '../../contexts/AuthContext';
+import { AlertContext } from '../../contexts/AlertContext';
 import { login } from '../../actions/auth';
-import { Link } from 'react-router-dom';
+import { setAlert } from '../../actions/alert';
+import { Link, Redirect } from 'react-router-dom';
 
 const Login = () => {
     // Konsumera context
-    const { dispatch } = useContext(AuthContext);
+    const { authData, dispatch } = useContext(AuthContext);
+    const { alertDispatch } = useContext(AlertContext);
 
     // State
     const [formData, setFormData] = useState({
@@ -19,8 +22,21 @@ const Login = () => {
 
     const onSubmit = e => {
         e.preventDefault();
-       
-        login(email, password, dispatch);
+        
+        const loginResult = login(email, password, dispatch);
+        loginResult.then(function(result) {
+            if(result) {
+                setAlert(`Welcome`, 'success', alertDispatch);
+            } else {
+                setAlert('Login failed', 'danger', alertDispatch);
+            }
+        });
+        
+    }
+
+    // Om användare är inloggad
+    if(authData.isAuthenticated) {
+        return <Redirect to='/dashboard' />
     }
 
     return (

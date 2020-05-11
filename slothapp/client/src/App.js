@@ -8,27 +8,35 @@ import Alert from './components/layout/Alert';
 // Context
 import AuthContextProvider from './contexts/AuthContext';
 import AlertContextProvider from './contexts/AlertContext';
+import setAuthToken from './utils/setAuthToken';
 
 import './App.css';
 
+if(localStorage.token) {
+    setAuthToken(localStorage.token);
+}
 
-const App = () => 
-<AuthContextProvider>
-    <AlertContextProvider>
-        <Router>
-            <Fragment>
-                <Navbar />
-                <Route exact path ='/' component={Landing} />
-                <Fragment>
-                    <Alert />
-                    <Switch>
-                        <Route exact path="/register" component={Register} />
-                        <Route exact path="/login" component={Login} />
-                    </Switch>
-                </Fragment>
-            </Fragment>
-        </Router>
-    </AlertContextProvider>
-</AuthContextProvider>
+const App = () => {
+
+    return (
+        <AuthContextProvider>
+            <AlertContextProvider>
+                <Router>
+                    <Fragment>
+                        <Navbar />
+                        <Route exact path ='/' component={Landing} />
+                        <Fragment>
+                            <Alert />
+                            <Switch>
+                                <Route exact path="/register" component={Register} />
+                                <Route exact path="/login" component={Login} />
+                            </Switch>
+                        </Fragment>
+                    </Fragment>
+                </Router>
+            </AlertContextProvider>
+        </AuthContextProvider>
+
+)};
     
 export default App;

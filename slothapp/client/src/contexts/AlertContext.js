@@ -4,9 +4,9 @@ import { alertReducer } from '../reducers/alertReducer';
 export const AlertContext = createContext();
 
 const AlertContextProvider = (props) => {
-    const [alertData, dispatch] = useReducer(alertReducer, []);
+    const [alertData, alertDispatch] = useReducer(alertReducer, []);
     return (
-        <AlertContext.Provider value={{alertData, dispatch}}>
+        <AlertContext.Provider value={{alertData, alertDispatch}}>
             {props.children}
         </AlertContext.Provider>
     );

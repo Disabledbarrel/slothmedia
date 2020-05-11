@@ -6,7 +6,7 @@ import { setAlert } from '../../actions/alert';
 
 const Register = () => {
     // Konsumera context
-    const { dispatch } = useContext(AlertContext);
+    const { alertDispatch } = useContext(AlertContext);
 
     // Register user action
     const register = async (name, email, password) => {
@@ -18,9 +18,9 @@ const Register = () => {
         const body = JSON.stringify({ 'user_name': name, 'email': email, 'password': password });
         try {
             await axios.post('http://localhost:5000/api/users', body, config );
-            setAlert('Registration success!', 'success', dispatch);
+            setAlert('User registered!', 'success', alertDispatch);
         } catch (err) {
-            setAlert(err.response.data.errors[0].msg, 'danger', dispatch);
+            setAlert(err.response.data.errors[0].msg, 'danger', alertDispatch);
         }
     }
 
@@ -38,7 +38,7 @@ const Register = () => {
     const onSubmit = e => {
         e.preventDefault();
         if(password !== confirmpassword) {
-            setAlert('Passwords do not match!', 'danger', dispatch);
+            setAlert('Passwords do not match!', 'danger', alertDispatch);
         } else {
             register(name, email, password);
         }
