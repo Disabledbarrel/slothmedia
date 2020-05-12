@@ -25,9 +25,7 @@ const Login = () => {
         
         const loginResult = login(email, password, dispatch);
         loginResult.then(function(result) {
-            if(result) {
-                setAlert(`Welcome`, 'success', alertDispatch);
-            } else {
+            if(!result) {
                 setAlert('Login failed', 'danger', alertDispatch);
             }
         });
@@ -35,7 +33,7 @@ const Login = () => {
     }
 
     // Om användare är inloggad
-    if(authData.isAuthenticated) {
+    if(authData.isAuthenticated === true ) {
         return <Redirect to='/dashboard' />
     }
 

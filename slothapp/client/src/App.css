@@ -47,7 +47,10 @@
   cursor: pointer;
   font-family: "Montserrat Alternates", sans-serif;
 }
-
+.btn-share {
+  font-size: 1rem;
+  margin-left: 10px;
+}
 .btn.btn-dark {
   background-color: #303841;
   color: #eeeeee;
@@ -562,6 +565,9 @@ img {
   .container .profile-container .profile {
     display: block;
     text-align: center;
+  }
+  .btn-share {
+    margin: 10px 0 0 0;
   }
 }
 

@@ -19,6 +19,7 @@ const Navbar = () => {
     );
     const authLinks = (
         <ul>
+            <li className=""><Link to="/dashboard" title="Go to the profile page"><i className="fas fa-user-circle"></i> Profile</Link></li>
             <li><a onClick={e => logout(dispatch)} href="#!" title="Log out from application"><i className="fas fa-sign-out-alt"></i> <span className='hide-sm'>Log out</span></a></li>
         </ul>
     );
