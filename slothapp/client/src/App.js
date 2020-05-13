@@ -6,11 +6,15 @@ import Login from './components/auth/Login';
 import Register from './components/auth/Register';
 import Alert from './components/layout/Alert';
 import Dashboard from './components/dashboard/Dashboard';
+import CreatePlaylist from './components/create-forms/CreatePlaylist';
+import Playlist from './components/dashboard/Playlist';
+import AddSong from './components/create-forms/AddSong';
 // Context
 import AuthContextProvider from './contexts/AuthContext';
 import AlertContextProvider from './contexts/AlertContext';
 import setAuthToken from './utils/setAuthToken';
 import PlaylistContextProvider from './contexts/PlaylistContext';
+import SongContextProvider from './contexts/SongContext';
 
 import './App.css';
 
@@ -24,20 +28,25 @@ const App = () => {
         <AuthContextProvider>
             <AlertContextProvider>
                 <PlaylistContextProvider>
-                    <Router>
-                        <Fragment>
-                            <Navbar />
-                            <Route exact path ='/' component={Landing} />
+                    <SongContextProvider>
+                        <Router>
                             <Fragment>
-                                <Alert />
-                                <Switch>
-                                    <Route exact path="/register" component={Register} />
-                                    <Route exact path="/login" component={Login} />
-                                    <Route exact path="/dashboard" component={Dashboard} />
-                                </Switch>
+                                <Navbar />
+                                <Route exact path ='/' component={Landing} />
+                                <Fragment>
+                                    <Alert />
+                                    <Switch>
+                                        <Route exact path="/register" component={Register} />
+                                        <Route exact path="/login" component={Login} />
+                                        <Route exact path="/dashboard" component={Dashboard} />
+                                        <Route exact path="/createplaylist" component={CreatePlaylist} />
+                                        <Route exact path="/playlist/:id" component={Playlist} />
+                                        <Route exact path="/addsong/:id" component={AddSong} />
+                                    </Switch>
+                                </Fragment>
                             </Fragment>
-                        </Fragment>
-                    </Router>
+                        </Router>
+                    </SongContextProvider>
                 </PlaylistContextProvider>
             </AlertContextProvider>
         </AuthContextProvider>

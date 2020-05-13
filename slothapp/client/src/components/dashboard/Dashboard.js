@@ -2,7 +2,7 @@ import React, { Fragment, useContext, useEffect } from 'react';
 import { AuthContext } from '../../contexts/AuthContext';
 import { PlaylistContext } from '../../contexts/PlaylistContext';
 import { getCurrentPlaylists } from '../../actions/playlist';
-import { Redirect } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 
 const Dashboard = () => {
     // Konsumera context
@@ -35,13 +35,13 @@ const Dashboard = () => {
                             </div>
                         </div>
                         <section className="profile-content">
-                            <h3>My playlists</h3>
-                                { playlistData !== null && playlists.length > 0 && playlists.map(playlist => (
-                                    <div key={playlist.playlist_id} className="">
-                                        <p>{playlist.playlist_name}</p>
+                            <h3 className="list-header">My playlists</h3>
+                                { playlistData !== null && playlists !== undefined && playlists.length > 0 && playlists.map(playlist => (
+                                    <div key={playlist.playlist_id} className="list-element">
+                                        <Link to={`/playlist/${playlist.playlist_id}`}><i className="fas fa-compact-disc"></i> {playlist.playlist_name}</Link>
                                     </div>
                                 ))}
-                            <a href="create-playlist.html" className="btn btn-red" title="Go to create playlist">Create Playlist</a>
+                            <Link to="/createplaylist" className="btn btn-red" title="Go to create playlist">Create Playlist</Link>
                             <button className="btn btn-dark btn-share"><i className="fas fa-share-square"></i> Share</button>
                         </section>
                     </div> 

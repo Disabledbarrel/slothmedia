@@ -32,7 +32,7 @@ export const login = async (email, password, dispatch) => {
             'Content-Type': 'application/json'
         }
     }
-
+  
     const body = JSON.stringify({ email, password });
 
     try {

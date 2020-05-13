@@ -21,3 +21,28 @@ export const getCurrentPlaylists = async (playlistDispatch) => {
     }
 }
 
+// Create playlist action
+export const createPlaylist = async (type, title, playlistDispatch) => {
+    const config = {
+        headers: {
+            'Content-type': 'application/json'
+        }
+    }
+    const body = JSON.stringify({ public_type: type, playlist_name: title });
+
+    try {
+        await axios.post('http://localhost:5000/api/playlists', body, config);
+        playlistDispatch({
+            type: GET_PLAYLIST,
+            payload: [] // För att inte skriva över med svar från API
+        });
+        return true;
+    } catch (err) {
+        
+        playlistDispatch({
+            type: PLAYLIST_ERROR,
+            payload: { msg: err.response, status: err.response}
+        });
+        return false;
+    }
+}

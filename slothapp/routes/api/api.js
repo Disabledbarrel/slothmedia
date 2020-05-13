@@ -161,7 +161,7 @@ router.get('/playlists', auth, (req, res) => {
 router.post('/playlists', auth, (req, res) => {
     const playlist_name  = req.body.playlist_name; 
     const user_id = req.user.id;
-    const public_type = req.body.public_type;
+    const public_type = req.body.public_type == 'true'; // Parsar sträng till boolean
     const insert_playlist_query = `INSERT INTO playlist (playlist_name, user_id, public_type) VALUES(?, ?, ?)`; // Skyddar mot SQL-injektioner
     connection.query(insert_playlist_query, [playlist_name, user_id, public_type],(err, results) => {
         if(err) {
