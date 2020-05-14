@@ -7,6 +7,7 @@ import Register from './components/auth/Register';
 import Alert from './components/layout/Alert';
 import Dashboard from './components/dashboard/Dashboard';
 import CreatePlaylist from './components/create-forms/CreatePlaylist';
+import EditPlaylist from './components/create-forms/EditPlaylist';
 import Playlist from './components/dashboard/Playlist';
 import AddSong from './components/create-forms/AddSong';
 // Context
@@ -40,6 +41,7 @@ const App = () => {
                                         <Route exact path="/login" component={Login} />
                                         <Route exact path="/dashboard" component={Dashboard} />
                                         <Route exact path="/createplaylist" component={CreatePlaylist} />
+                                        <Route exact path="/editplaylist/:id" component={EditPlaylist} />
                                         <Route exact path="/playlist/:id" component={Playlist} />
                                         <Route exact path="/addsong/:id" component={AddSong} />
                                     </Switch>

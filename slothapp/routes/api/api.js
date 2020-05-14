@@ -180,7 +180,7 @@ router.put('/playlists/:id', auth, (req, res) => {
     const playlist_id = req.params.id;
     const playlist_name = req.body.playlist_name;
     const user_id = req.user.id; 
-    const public_type = req.body.public_type;
+    const public_type = req.body.public_type == 'true'; // Parsar sträng till boolean
     const update_playlist_query = `UPDATE playlist SET playlist_name=?, public_type=? WHERE playlist_id=? AND user_id=?`; // Skyddar mot SQL-injektioner
     connection.query(update_playlist_query, [playlist_name, public_type, playlist_id, user_id], (err, results) => {
         if(err) {
@@ -195,6 +195,23 @@ router.put('/playlists/:id', auth, (req, res) => {
         }
     });
 });
+// @route GET api/playlists/:id
+// @descr get single playlist for current user
+// @access Auth
+router.get('/playlists/:id', auth, (req, res) => {
+    const playlist_id = req.params.id;
+    const user_id = req.user.id;
+    const get_playlist_query = `SELECT * FROM playlist WHERE playlist_id=? AND user_id=?`;
+    connection.query(get_playlist_query, [playlist_id, user_id], (err, results) => {
+        if(err) {
+            return res.send(err);
+        } else {
+            return res.json({
+                data: results
+            });
+        }
+    });
+})
 // @route DELETE api/playlists/:id
 // @descr delete playlist for current user
 // @access Auth

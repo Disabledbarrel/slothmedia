@@ -38,7 +38,8 @@ const Dashboard = () => {
                             <h3 className="list-header">My playlists</h3>
                                 { playlistData !== null && playlists !== undefined && playlists.length > 0 && playlists.map(playlist => (
                                     <div key={playlist.playlist_id} className="list-element">
-                                        <Link to={`/playlist/${playlist.playlist_id}`}><i className="fas fa-compact-disc"></i> {playlist.playlist_name}</Link>
+                                        <Link to={`/playlist/${playlist.playlist_id}`} title="Go to playlist"><i className="fas fa-compact-disc"></i> {playlist.playlist_name}</Link>
+                                        <Link to={`/editplaylist/${playlist.playlist_id}`} title="Go to edit playlist"><i className="far fa-edit"></i></Link>
                                     </div>
                                 ))}
                             <Link to="/createplaylist" className="btn btn-red btn-list" title="Go to create playlist">Create Playlist</Link>

@@ -56,7 +56,13 @@
   color: #eeeeee;
   border: 1px solid #eeeeee;
 }
-
+.btn-back, .btn-create {
+  float: left;
+}
+.btn-create {
+  margin-right: 10px;
+  padding: 6px 20px;
+}
 .btn.btn-dark:hover {
   background-color: #eeeeee;
   color: #303841;
@@ -70,7 +76,10 @@
   margin-bottom: 10px;
 }
 .list-element {
-  margin-bottom: 10px;
+  margin-bottom: 20px;
+}
+.far.fa-edit {
+  float: right;
 }
 .btn.btn-red {
   background-color: #ea5455;
@@ -82,6 +91,7 @@
   font-size: 1.1rem;
   margin-left: 15px;
   background-color: white;
+  float: right;
 }
 .btn.btn-red:hover {
   background-color: #ed6b6c;
@@ -587,6 +597,14 @@ img {
   .btn-share, .btn-list {
     display: block;
     text-align: center;
+  }
+  .btn-login, .btn-create, .btn-back {
+    display: block;
+    text-align: center;
+    width: 100%;
+  }
+  .signup {
+    margin-top: 10px;
   }
   .list-header {
     margin-bottom: 15px;

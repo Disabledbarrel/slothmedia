@@ -63,10 +63,10 @@ const Login = () => {
                         onChange={e => onChange(e)}
                         required  />
                 </div>
-                <input type="submit" className="btn btn-dark" value="Log in" />
+                <input type="submit" className="btn btn-dark btn-login" value="Log in" />
             </form>
-            <p className="my-1">
-                Don't have an account? <Link to="/register" title="Go to register page" className="btn btn-red">Register</Link>
+            <p className="signup">
+                Don't have an account? <Link to="/register" title="Go to register page" className="btn btn-red btn-create">Register</Link>
             </p>
         </section>
        </Fragment>

@@ -1,5 +1,6 @@
 import React, { Fragment, useContext, useEffect } from 'react';
 import { AuthContext } from '../../contexts/AuthContext';
+import { PlaylistContext } from '../../contexts/PlaylistContext';
 import { SongContext } from '../../contexts/SongContext';
 import { getSongs, deleteSong } from '../../actions/song';
 import { useParams, Link, Redirect } from 'react-router-dom';
@@ -10,6 +11,16 @@ const Playlist = () => {
     // Konsumera context
     const { authData } = useContext(AuthContext);
     const { songData, songDispatch } = useContext(SongContext);
+    const { playlistData } = useContext(PlaylistContext);
+
+    // Låtlistans namn
+    const getNameById = (id, playlists) => {
+        for(var i=0; i<playlists.length; i++) {
+            if(playlists[i].playlist_id === parseInt(id) ) {
+                return playlists[i].playlist_name;
+            }
+        }
+    }
 
     // Läsa ut sånger
     const songs = songData.songs;
@@ -34,10 +45,10 @@ const Playlist = () => {
                                 <p>Här ska musikspelaren renderas</p>
                             </div>
                             <section className="profile-content">
-                                <h3 className="list-header"><i className="far fa-play-circle"></i> Songs</h3>
+                                <h3 className="list-header"><i className="far fa-play-circle"></i> {getNameById(id, playlistData.playlists)}</h3>
                                     
                                     { songData !== null && songs !== undefined && songs.length > 0 && songs.map(song => (
-                                            <div key={song.song_id} className="list-element">
+                                            <div key={song.song_id} className="list-element songs">
                                                 <p>{song.song_name}<button onClick={e => deleteSong(id, song.song_id, songDispatch)} type="button" className="btn-delete"><i className="fas fa-trash-alt"></i></button></p>
                                             </div>
                                     ))}

@@ -89,10 +89,10 @@ const Register = () => {
                             required
                             />
                     </div>
-                    <input type="submit" className="btn btn-red" value="Register" />
+                    <input type="submit" className="btn btn-red btn-create" value="Register" />
                 </form>
-                <p className="my-1">
-                    Already have an account? <Link to="/login" title="Go to sign in page" className="btn btn-dark">Log in</Link>
+                <p className="signup">
+                    Already have an account? <Link to="/login" title="Go to sign in page" className="btn btn-dark btn-back">Log in</Link>
                 </p>
             </section>
         </Fragment>
