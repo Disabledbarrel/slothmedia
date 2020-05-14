@@ -1,7 +1,7 @@
 import React, { Fragment, useContext, useEffect } from 'react';
 import { AuthContext } from '../../contexts/AuthContext';
 import { SongContext } from '../../contexts/SongContext';
-import { getSongs} from '../../actions/song';
+import { getSongs, deleteSong } from '../../actions/song';
 import { useParams, Link, Redirect } from 'react-router-dom';
 
 const Playlist = () => {
@@ -38,11 +38,11 @@ const Playlist = () => {
                                     
                                     { songData !== null && songs !== undefined && songs.length > 0 && songs.map(song => (
                                             <div key={song.song_id} className="list-element">
-                                                <p>{song.song_name}</p>
+                                                <p>{song.song_name}<button onClick={e => deleteSong(id, song.song_id, songDispatch)} type="button" className="btn-delete"><i className="fas fa-trash-alt"></i></button></p>
                                             </div>
                                     ))}
     
-                                <Link to={`/addsong/${id}`} className="btn btn-red" title="Go to add song">Add song</Link>
+                                <Link to={`/addsong/${id}`} className="btn btn-red btn-list" title="Go to add song">Add song</Link>
                                 <Link to="/dashboard" className="btn btn-dark btn-share" title="Go back profile">Back to profile</Link>
                             </section>
                         </div> 

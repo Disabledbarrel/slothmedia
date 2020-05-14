@@ -2,7 +2,8 @@ import axios from 'axios';
 
 import {
     GET_SONG,
-    SONG_ERROR
+    SONG_ERROR,
+    DELETE_SONG
 } from './types';
 
 // Get songs action
@@ -44,5 +45,22 @@ export const addSong = async (id, song_name, song_url, songDispatch) => {
             payload: { msg: err.response, status: err.response}
         });
         return false;
+    }
+}
+
+// Delete song action 
+export const deleteSong = async (id, song_id, songDispatch) => {
+    
+    try {
+        await axios.delete(`http://localhost:5000/api/playlists/${id}/songs/${song_id}`);
+        songDispatch({
+            type: DELETE_SONG,
+            payload: song_id
+        });
+    } catch (err) {
+        songDispatch({
+            type: SONG_ERROR,
+            payload: { msg: err.response, status: err.response}
+        });
     }
 }

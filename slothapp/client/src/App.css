@@ -77,7 +77,12 @@
   color: #eeeeee;
   border: 1px solid #ea5455;
 }
-
+.btn-delete {
+  border: none;
+  font-size: 1.1rem;
+  margin-left: 15px;
+  background-color: white;
+}
 .btn.btn-red:hover {
   background-color: #ed6b6c;
   border-color: #ed6b6c;
@@ -573,6 +578,21 @@ img {
   }
   .btn-share {
     margin: 10px 0 0 0;
+  }
+  .btn-delete {
+    border: none;
+    background-color: white;
+    float: right;
+  }
+  .btn-share, .btn-list {
+    display: block;
+    text-align: center;
+  }
+  .list-header {
+    margin-bottom: 15px;
+  }
+  .list-element {
+    margin-bottom: 25px;
   }
 }
 

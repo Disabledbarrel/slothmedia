@@ -41,8 +41,8 @@ const Dashboard = () => {
                                         <Link to={`/playlist/${playlist.playlist_id}`}><i className="fas fa-compact-disc"></i> {playlist.playlist_name}</Link>
                                     </div>
                                 ))}
-                            <Link to="/createplaylist" className="btn btn-red" title="Go to create playlist">Create Playlist</Link>
-                            <button className="btn btn-dark btn-share"><i className="fas fa-share-square"></i> Share</button>
+                            <Link to="/createplaylist" className="btn btn-red btn-list" title="Go to create playlist">Create Playlist</Link>
+                            <Link to="/share" className="btn btn-dark btn-share" title="Share playlist"><i className="fas fa-share-square"></i> Share</Link>
                         </section>
                     </div> 
                 </section>

@@ -9,3 +9,4 @@ export const GET_PLAYLIST = 'GET_PLAYLIST';
 export const PLAYLIST_ERROR = 'PLAYLIST_ERROR';
 export const GET_SONG = 'GET_SONG';
 export const SONG_ERROR = 'SONG_ERROR';
+export const DELETE_SONG = 'DELETE_SONG';

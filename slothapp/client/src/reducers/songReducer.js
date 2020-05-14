@@ -1,6 +1,7 @@
 import {
     GET_SONG,
-    SONG_ERROR
+    SONG_ERROR,
+    DELETE_SONG
 } from '../actions/types';
 
 const initialState = {
@@ -19,6 +20,12 @@ export const songReducer = (state = initialState, action) => {
                 songs: payload,
                 loading: false // För att inte hamna i error iom att useEffect används i komponenten
             };
+        case DELETE_SONG:
+            return {
+                ...state,
+                songs: state.songs.filter(song => song.song_id !== payload),
+                loading: false
+            }
         case SONG_ERROR:
             return {
                 ...state, 
