@@ -8,7 +8,7 @@ const Dashboard = () => {
     // Konsumera context
     const { authData } = useContext(AuthContext);
     const { playlistData, playlistDispatch } = useContext(PlaylistContext);
-    
+   
     // Läsa ut playlists
     const playlists = playlistData.playlists;
     const loading = playlistData.loading;
@@ -28,7 +28,7 @@ const Dashboard = () => {
                 <section className="container">
                     <div className="profile-container">
                         <div className="profile">
-                            <img src="https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50?f=y" alt="profile" className="round-img" />
+                            <img src={authData.user.avatar} alt="profile" className="round-img" />
                             <div className="profile-header">
                                 <h2 className="container-heading"><i className="fas fa-user-circle"></i> Dashboard</h2>
                                 <p>Welcome {authData.user !== null ? authData.user.user_name : ''}!</p>

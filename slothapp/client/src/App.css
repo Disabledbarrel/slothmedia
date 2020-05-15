@@ -56,7 +56,7 @@
   color: #eeeeee;
   border: 1px solid #eeeeee;
 }
-.btn-back, .btn-create {
+.btn-backwards, .btn-creating {
   float: left;
 }
 .btn-create {
@@ -242,7 +242,9 @@ img {
   margin: auto auto;
   padding-left: 10px;
 }
-
+.toggler {
+  display: none;
+}
 .navbar {
   margin: auto 0 auto 0;
 }

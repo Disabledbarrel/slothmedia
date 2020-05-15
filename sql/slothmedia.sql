@@ -10,6 +10,7 @@ CREATE TABLE appuser (
   email varchar(155) NOT NULL,
   password varchar(155) NOT NULL,
   user_name varchar(155) NOT NULL,
+  avatar varchar(155),
   UNIQUE (user_name),
   PRIMARY KEY (user_id)
 );
@@ -31,7 +32,9 @@ CREATE TABLE song (
   playlist_id int(11) NOT NULL,
   song_name varchar(155) NOT NULL,
   PRIMARY KEY (song_id),
-  FOREIGN KEY (playlist_id) REFERENCES playlist(playlist_id)
+  FOREIGN KEY (playlist_id)
+    REFERENCES playlist(playlist_id)
+    ON DELETE CASCADE
 );
 
 /* Tabellstruktur share */
@@ -40,7 +43,9 @@ CREATE TABLE share (
   playlist_id int(11) NOT NULL,
   share_type varchar(155) NOT NULL,
   PRIMARY KEY (user_id, playlist_id),
-  FOREIGN KEY (playlist_id) REFERENCES playlist(playlist_id),
+  FOREIGN KEY (playlist_id)
+    REFERENCES playlist(playlist_id)
+    ON DELETE CASCADE,
   FOREIGN KEY (user_id) REFERENCES appuser(user_id)
 );
 
@@ -52,6 +57,8 @@ CREATE TABLE user_comment (
   content varchar(155) DEFAULT NULL,
   created timestamp NOT NULL,
   PRIMARY KEY (comment_id),
-  FOREIGN KEY (playlist_id) REFERENCES playlist(playlist_id),
+  FOREIGN KEY (playlist_id)
+    REFERENCES playlist(playlist_id)
+    ON DELETE CASCADE,
   FOREIGN KEY (user_id) REFERENCES appuser(user_id)
 );

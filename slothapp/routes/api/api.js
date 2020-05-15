@@ -3,6 +3,7 @@ const mysql = require('mysql');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const config = require('config');
+const gravatar = require('gravatar');
 const auth = require('../../middleware/auth');
 const { check, validationResult } = require('express-validator');
 
@@ -11,9 +12,9 @@ const router = express.Router();
 // Anslutning till databas
 const connection = mysql.createConnection({
     host: 'localhost',
-    user: 'elin',
+    user: 'sloth_media',
     password: 'password',
-    database: 'slothmedia'
+    database: 'sloth_media'
 });
 
 connection.connect(err => {
@@ -28,7 +29,7 @@ connection.connect(err => {
 router.get('/', auth, (req, res) => {
     const user_id = req.user.id; // Från token
     
-    const select_user_query = 'SELECT email, user_name from appuser WHERE user_id = ?'; // Skyddar mot SQL-injektioner
+    const select_user_query = 'SELECT email, user_name, avatar from appuser WHERE user_id = ?'; // Skyddar mot SQL-injektioner
     connection.query(select_user_query, [user_id], (err, results) => {
         if(err) {
             return res.send(err);
@@ -57,6 +58,11 @@ router.post('/users', [
     const email  = req.body.email; 
     const password = req.body.password;
     const user_name = req.body.user_name;
+    const avatar = gravatar.url(email, {
+        s: '200',
+        r: 'pg',
+        d: 'mm'
+    })
 
     // Kryptera lösenord med salt
     let hash = bcrypt.hashSync(password, 10);
@@ -68,8 +74,8 @@ router.post('/users', [
             return res.send(err);
         } else {
             if(results.length == 0) {
-                const insert_user_query = `INSERT INTO appuser (email, password, user_name) VALUES(?, ?, ?)`; // Skyddar mot SQL-injektioner
-                connection.query(insert_user_query, [email, hash, user_name],(err, results) => {
+                const insert_user_query = `INSERT INTO appuser (email, password, user_name, avatar) VALUES(?, ?, ?, ?)`; // Skyddar mot SQL-injektioner
+                connection.query(insert_user_query, [email, hash, user_name, avatar],(err, results) => {
                     if(err) {
                         if(err.code == 'ER_DUP_ENTRY') {
                             return res.status(400).json({ errors: [{msg: 'User name already taken!'}] });
@@ -501,13 +507,13 @@ router.post('/playlists/:id/share', auth, (req, res) => {
             if(results.length >0) { // Spellistan finns
                 if(user_id == results[0].user_id) { // inloggad användare äger spellistan
                     const find_user_query = 'SELECT user_id FROM appuser WHERE user_name=?';
-                    connection.query(find_user_query, [shared_user], (err, results) => {
+                    connection.query(find_user_query, [shared_user], (err, results2) => {
                         if(err) {
                             return res.send(err);
                         } else {
-                            if(results.length > 0) {
+                            if(results2.length > 0) {
                                 const insert_share_query = `INSERT INTO share (user_id, playlist_id, share_type) VALUES(?, ?, ?)`;
-                                connection.query(insert_share_query, [results[0].user_id, playlist_id, share_type], (err, results) => {
+                                connection.query(insert_share_query, [results2[0].user_id, playlist_id, share_type], (err, results3) => {
                                     if(err) {
                                         return res.send(err);
                                     } else {

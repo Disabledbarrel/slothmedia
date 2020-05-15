@@ -63,9 +63,9 @@ const CreatePlaylist = () => {
                         <input type="text" id="title" name='title' value={title} onChange={e => onChange(e)}/>
                         <small className="form-text">Add a title to your playlist</small>
                     </div>
-                    <input type="submit" className="btn btn-red btn-create" value="Create" />
+                    <input type="submit" className="btn btn-red btn-create btn-creating" value="Create" />
                 </form>
-                <Link to="/dashboard" className="btn btn-dark btn-back" title="Back to profile">Back to profile</Link>
+                <Link to="/dashboard" className="btn btn-dark btn-back btn-backwards" title="Back to profile">Back to profile</Link>
             </section>
             
         </Fragment>

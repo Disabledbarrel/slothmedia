@@ -35,7 +35,8 @@ const Navbar = () => {
                     { !loading && (<Fragment>{ isAuthenticated ? authLinks : guestLinks }</Fragment>) }
                 </nav>
             </div>
-        </header>   
+        </header>  
+        
     )
 }
 
