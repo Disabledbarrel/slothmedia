@@ -523,6 +523,10 @@ img {
   -ms-grid-column-span: 4;
   grid-column: 1/5;
 }
+#media-wrapper {
+  grid-column: 1/5;
+  margin: auto auto;
+}
 
 @media (max-width: 769px) {
   .hide-sm {

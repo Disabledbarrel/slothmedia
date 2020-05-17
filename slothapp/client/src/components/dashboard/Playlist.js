@@ -1,13 +1,22 @@
-import React, { Fragment, useContext, useEffect } from 'react';
+import React, { Fragment, useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../../contexts/AuthContext';
 import { PlaylistContext } from '../../contexts/PlaylistContext';
 import { SongContext } from '../../contexts/SongContext';
 import { getSongs, deleteSong } from '../../actions/song';
 import { useParams, Link, Redirect } from 'react-router-dom';
+import ReactPlayer from 'react-player';
 
 const Playlist = () => {
-    const { id } = useParams();
+    // State
+    const [playerData, setPlayerData] = useState({
+        url: '',
+        playing: true,
+        song_id: null 
+    });
+    const { url, playing, song_id } = playerData;
 
+    const { id } = useParams();
+    
     // Konsumera context
     const { authData } = useContext(AuthContext);
     const { songData, songDispatch } = useContext(SongContext);
@@ -31,6 +40,26 @@ const Playlist = () => {
         getSongs(id, songDispatch);
     }, []);
 
+    // Sätt sång-url
+    const setUrl = (inurl, current_id) => {
+        setPlayerData({ ...playerData, url: inurl, song_id: current_id });
+    }
+    // Spela nästa låt
+    const playNextSong = (id) => {
+        const array = songData.songs;
+        for(var i=0; i<array.length; i++) {
+            if(i+1 === array.length) {
+                break // Stoppa loopen om man är på sista sången i spellistan
+            }
+            if(array[i].song_id === id ) {
+                let new_id = array[i+1].song_id;
+                let new_url = array[i+1].song_url;
+                setUrl(new_url, new_id);
+                break
+            }
+        }
+    }
+
     // Om användare inte är inloggad
     if(!authData.isAuthenticated === true && !authData.loading) {
         return <Redirect to='/' />
@@ -42,14 +71,23 @@ const Playlist = () => {
                 <section className="container">
                         <div className="profile-container">
                             <div className="profile">
-                                <p>Här ska musikspelaren renderas</p>
+                                <div id="media-wrapper">
+                                    <ReactPlayer
+                                        className='react-player'
+                                        width='100%'
+                                        height='100%'
+                                        playing={playing}
+                                        url={url}
+                                        onEnded={e => playNextSong(song_id)}
+                                    />
+                                </div>
                             </div>
                             <section className="profile-content">
-                                <h3 className="list-header"><i className="far fa-play-circle"></i> {getNameById(id, playlistData.playlists)}</h3>
+                                <h2 className="list-header">{getNameById(id, playlistData.playlists)}</h2>
                                     
                                     { songData !== null && songs !== undefined && songs.length > 0 && songs.map(song => (
                                             <div key={song.song_id} className="list-element songs">
-                                                <p>{song.song_name}<button onClick={e => deleteSong(id, song.song_id, songDispatch)} type="button" className="btn-delete"><i className="fas fa-trash-alt"></i></button></p>
+                                                <Link to="#!" onClick={e => setUrl(song.song_url, song.song_id)}><i className="far fa-play-circle"></i> {song.song_name}</Link><button onClick={e => deleteSong(id, song.song_id, songDispatch)} type="button" className="btn-delete"><i className="fas fa-trash-alt"></i></button>
                                             </div>
                                     ))}
     
