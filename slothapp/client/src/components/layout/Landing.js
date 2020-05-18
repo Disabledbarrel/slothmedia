@@ -19,7 +19,7 @@ const Landing = () => {
                     <div className="icon-container">
                         <i className="fas fa-play-circle"></i>
                     </div>
-                    <h4>Create your own lists</h4>
+                    <h4>Create your own playlists</h4>
                     <p>Use music from many sources</p>
                 </div>
                 <div className="information-container-two">
@@ -62,7 +62,6 @@ const Landing = () => {
             <footer className="main-footer bg-dark">
                 <div className="footer-inner bg-dark">
                     <Link to="/about" title="Learn more about SlothMedia's app">About</Link>
-                    <Link to="/cookies" title="Learn more about our Cookies policy">Cookies</Link>
                     <Link to="/help" title="Go to our help page">Help</Link>
                     <p>&copy; 2020</p>
                 </div>

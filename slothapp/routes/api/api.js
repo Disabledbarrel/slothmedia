@@ -237,7 +237,7 @@ router.delete('/playlists/:id', auth, (req, res) => {
 })
 
 // @route GET api/playlists/:id/songs
-// @descr read all songs for playlist owned by current user
+// @descr read all songs for playlist owned by current user or if shared user
 // @access Auth
 router.get('/playlists/:id/songs', auth, (req, res) => {
     const user_id = req.user.id;
@@ -260,8 +260,28 @@ router.get('/playlists/:id/songs', auth, (req, res) => {
                         }
                     });
                 } else {
-                    return res.json({
-                        data: 'access denied'
+                    const check_shared_user_query = 'SELECT user_id FROM share WHERE playlist_id=? AND user_id=?'; // Kolla om användare är delad
+                    connection.query(check_shared_user_query, [playlist_id, user_id], (req, results) => {
+                        if(err) {
+                            return res.send(err);
+                        } else {
+                            if(results.length > 0) {
+                                const select_songs_query = `SELECT * from song WHERE playlist_id = ?`; // Skyddar mot SQL-injektioner
+                                connection.query(select_songs_query, [playlist_id], (err, results) => {
+                                    if(err) {
+                                        return res.send(err);
+                                    } else {
+                                        return res.json({
+                                            data: results
+                                        });
+                                    }
+                                });
+                            } else {
+                                return res.json({
+                                    data: 'access denied'
+                                });
+                            }
+                        }
                     });
                 }
             } else {
@@ -297,8 +317,8 @@ router.post('/playlists/:id/songs', auth, (req, res) => {
                         }
                     });
                 } else {
-                    const check_shared_user_query = 'SELECT user_id FROM share WHERE share_type=? AND playlist_id=? AND user_id=?';
-                    connection.query(check_shared_user_query, ['rw', playlist_id, user_id], (req, results) => {
+                    const check_shared_user_query = 'SELECT user_id FROM share WHERE playlist_id=? AND user_id=?';
+                    connection.query(check_shared_user_query, [playlist_id, user_id], (req, results) => {
                         if(err) {
                             return res.send(err);
                         } else {
@@ -456,6 +476,7 @@ router.post('/playlists/:id/comments', auth, (req, res) => {
 // @descr Shared users on logged in user's playlist and share type
 // @access Auth
 router.get('/playlists/:id/share', auth, (req, res) => {
+    console.log('prutt2');
     const playlist_id = req.params.id;
     const user_id = req.user.id;
 
@@ -476,10 +497,13 @@ router.get('/playlists/:id/share', auth, (req, res) => {
 // @route GET api/playlists/share 
 // @descr Playlists shared with current user
 // @access Auth
-router.get('/playlists/share', auth, (req, res) => {
-    const user_id = req.user.id;
+router.get('/shared', auth, (req, res) => {
+    const user_id = parseInt(req.user.id);
 
-    const select_share_query = `SELECT playlist_id FROM share WHERE user_id=?`;
+    const select_share_query = `SELECT share.playlist_id, playlist.playlist_name
+    FROM share
+    JOIN playlist ON share.playlist_id=playlist.playlist_id
+    WHERE share.user_id=?`;
     connection.query(select_share_query, [user_id], (err, results) => {
         if(err) {
             return res.send(err);

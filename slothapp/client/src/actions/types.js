@@ -10,3 +10,5 @@ export const PLAYLIST_ERROR = 'PLAYLIST_ERROR';
 export const GET_SONG = 'GET_SONG';
 export const SONG_ERROR = 'SONG_ERROR';
 export const DELETE_SONG = 'DELETE_SONG';
+export const SHARE_PLAYLIST = 'SHARE_PLAYLIST';
+export const SHARE_ERROR = 'SHARE_ERROR';

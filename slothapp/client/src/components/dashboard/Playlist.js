@@ -1,6 +1,8 @@
 import React, { Fragment, useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../../contexts/AuthContext';
 import { PlaylistContext } from '../../contexts/PlaylistContext';
+import { ShareContext } from '../../contexts/ShareContext';
+import { getSharedPlaylists } from '../../actions/share';
 import { SongContext } from '../../contexts/SongContext';
 import { getSongs, deleteSong } from '../../actions/song';
 import { useParams, Link, Redirect } from 'react-router-dom';
@@ -21,12 +23,18 @@ const Playlist = () => {
     const { authData } = useContext(AuthContext);
     const { songData, songDispatch } = useContext(SongContext);
     const { playlistData } = useContext(PlaylistContext);
+    const { shareData, shareDispatch } = useContext(ShareContext);
 
     // Låtlistans namn
-    const getNameById = (id, playlists) => {
+    const getNameById = (id, playlists, shared_lists) => {
         for(var i=0; i<playlists.length; i++) {
             if(playlists[i].playlist_id === parseInt(id) ) {
                 return playlists[i].playlist_name;
+            }
+        }
+        for(var j=0; j<shared_lists.length; j++) {
+            if(shared_lists[j].playlist_id === parseInt(id) ) {
+                return 'Shared playlist: ' + shared_lists[j].playlist_name;
             }
         }
     }
@@ -39,6 +47,13 @@ const Playlist = () => {
     useEffect(() => {
         getSongs(id, songDispatch);
     }, []);
+
+    // Hämta inloggad användares delade spellistor
+    useEffect(() => {
+        getSharedPlaylists(shareDispatch);
+    }, []);
+    // Läsa ut delade spellistor
+    const shared_playlists = shareData.shares;
 
     // Sätt sång-url
     const setUrl = (inurl, current_id) => {
@@ -83,7 +98,7 @@ const Playlist = () => {
                                 </div>
                             </div>
                             <section className="profile-content">
-                                <h2 className="list-header">{getNameById(id, playlistData.playlists)}</h2>
+                                <h2 className="list-header">{getNameById(id, playlistData.playlists, shared_playlists.data)}</h2>
                                     
                                     { songData !== null && songs !== undefined && songs.length > 0 && songs.map(song => (
                                             <div key={song.song_id} className="list-element songs">
