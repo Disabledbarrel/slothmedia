@@ -22,13 +22,13 @@ export const getSharedPlaylists = async (shareDispatch) => {
 }
 
 // Share playlist action
-export const sharePlaylist = async (id, user_name, share_type, shareDispatch) => {
+export const sharePlaylist = async (id, user_name, shareDispatch) => {
     const config = {
         headers: {
             'Content-type': 'application/json'
         }
     }
-    const body = JSON.stringify({ shared_user: user_name, share_type: share_type });
+    const body = JSON.stringify({ shared_user: user_name });
 
     try {
         await axios.post(`http://localhost:5000/api/playlists/${id}/share`, body, config);

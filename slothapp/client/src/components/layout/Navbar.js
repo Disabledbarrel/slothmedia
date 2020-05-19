@@ -13,7 +13,7 @@ const Navbar = () => {
     // Länkar
     const guestLinks = (
         <ul>
-            <li className="btn btn-dark"><Link to="/login" title="Go to the log in page">Log in</Link></li>
+            <li className="btn btn-dark"><Link to="/login" title="Go to the log in page">Sign in</Link></li>
             <li className="btn btn-red"><Link to="/register" title="Go to the register page">Register</Link></li>
         </ul>
     );

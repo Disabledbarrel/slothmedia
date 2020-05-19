@@ -1,6 +1,7 @@
 import {
     GET_PLAYLIST,
-    PLAYLIST_ERROR
+    PLAYLIST_ERROR,
+    DELETE_PLAYLIST
 } from '../actions/types';
 
 const initialState = {
@@ -19,6 +20,12 @@ export const playlistReducer = (state = initialState, action) => {
                 playlists: payload,
                 loading: false // För att inte hamna i error iom att useEffect används i komponenten
             };
+        case DELETE_PLAYLIST:
+            return {
+                ...state,
+                playlists: state.playlists.filter(playlist => playlist.playlist_id !== payload),
+                loading: false
+            }
         case PLAYLIST_ERROR:
             return {
                 ...state, 

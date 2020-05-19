@@ -23,13 +23,11 @@ const SharePlaylist = () => {
 
     // State
     const [ formData, setFormData] = useState({
-        user: '',
-        type: ''
+        user: ''
     });
 
     const {
-        user,
-        type
+        user
     } = formData;
 
     const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -37,7 +35,7 @@ const SharePlaylist = () => {
     const history = useHistory();
     const onSubmit = e => {
         e.preventDefault();
-        const sharePlaylistResult = sharePlaylist(id, user, type, shareDispatch);
+        const sharePlaylistResult = sharePlaylist(id, user, shareDispatch);
         sharePlaylistResult.then(function(result) {
             if(result) {
                 return history.push('/dashboard');
@@ -56,31 +54,24 @@ const SharePlaylist = () => {
         return (
             <Fragment>
                <section className="container">
-                <h2>Share playlist: {playlists !== null ? playlists[0].playlist_name : ''}</h2>
-                <form className="form" onSubmit={e => onSubmit(e)}>
-                    <div className="form-group">
-                        <label htmlFor="User">Username:</label><br />
-                        <input
-                            type="text"
-                            id="User"
-                            name='user'
-                            value={user}
-                            onChange={e => onChange(e)}
-                            required  />
-                            <small className="form-text">Type which user you want to share your playlist with</small>
-                    </div>
-                    <div className="form-group">
-                        <label htmlFor="type">Type of access:</label><br />
-                        <select name="type" id="type" value={type} onChange={e => onChange(e)} required>
-                            <option value="read">* Select type of access</option>
-                            <option value="read">Show only</option>
-                            <option value="rw">Show and update</option>
-                        </select>
-                        <small className="form-text">Choose what access the user will have to your playlist</small>
-                    </div>
-                    <input type="submit" className="btn btn-red btn-create btn-creating" value="Share" />
-                </form>
-                <Link to="/dashboard" className="btn btn-dark btn-back btn-backwards" title="Back to profile">Back to profile</Link>
+                   <div className="form-container">
+                    <h2 className="form-header"><i className="fas fa-play-circle"></i> Share playlist: {playlists !== null ? playlists[0].playlist_name : ''}</h2>
+                    <form className="form" onSubmit={e => onSubmit(e)}>
+                        <div className="form-group">
+                            <label htmlFor="User">Username:</label><br />
+                            <input
+                                type="text"
+                                id="User"
+                                name='user'
+                                value={user}
+                                onChange={e => onChange(e)}
+                                required  />
+                                <small className="form-text">Type which user you want to share your playlist with</small>
+                        </div>
+                        <input type="submit" className="btn btn-red btn-create btn-creating" value="Share" />
+                    </form>
+                    <Link to="/dashboard" className="btn btn-dark btn-back btn-backwards" title="Back to profile">Back to profile</Link>
+                </div>
             </section>
            </Fragment>
         )

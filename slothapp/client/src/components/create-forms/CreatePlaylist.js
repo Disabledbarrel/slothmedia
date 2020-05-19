@@ -15,12 +15,10 @@ const CreatePlaylist = () => {
 
      // State
     const [ formData, setFormData] = useState({
-        type: '',
         title: ''
     });
 
     const {
-        type,
         title
     } = formData;
 
@@ -29,7 +27,7 @@ const CreatePlaylist = () => {
     const history = useHistory();
     const onSubmit = e => {
         e.preventDefault();
-        const createPlaylistResult = createPlaylist(type, title, playlistDispatch);
+        const createPlaylistResult = createPlaylist(title, playlistDispatch);
         createPlaylistResult.then(function(result) {
             if(result) {
                 return history.push('/dashboard');
@@ -47,25 +45,18 @@ const CreatePlaylist = () => {
     return (
         <Fragment>
             <section className="container">
-                <h2><i className="fas fa-play-circle"></i> Create Playlist</h2>
-                <form action="playlist.html" className="form" onSubmit={e => onSubmit(e)}>
-                    <div className="form-group">
-                        <label htmlFor="type">Type:</label><br />
-                        <select name="type" id="type" value={type} onChange={e => onChange(e)} required>
-                            <option value="0">* Select type of playlist</option>
-                            <option value="false">Private</option>
-                            <option value="true">Public</option>
-                        </select>
-                        <small className="form-text">Choose public or private playlist</small>
-                    </div>
-                    <div className="form-group">
-                        <label htmlFor="title">Title:</label><br />
-                        <input type="text" id="title" name='title' value={title} onChange={e => onChange(e)}/>
-                        <small className="form-text">Add a title to your playlist</small>
-                    </div>
-                    <input type="submit" className="btn btn-red btn-create btn-creating" value="Create" />
-                </form>
-                <Link to="/dashboard" className="btn btn-dark btn-back btn-backwards" title="Back to profile">Back to profile</Link>
+                <div className="form-container">
+                    <h2 className="form-header"><i className="fas fa-play-circle"></i> Create Playlist</h2>
+                    <form action="playlist.html" className="form" onSubmit={e => onSubmit(e)}>
+                        <div className="form-group">
+                            <label htmlFor="title">Title:</label><br />
+                            <input type="text" id="title" name='title' value={title} onChange={e => onChange(e)}/>
+                            <small className="form-text">Add a title to your playlist</small>
+                        </div>
+                        <input type="submit" className="btn btn-red btn-create btn-creating" value="Create" />
+                    </form>
+                    <Link to="/dashboard" className="btn btn-dark btn-back btn-backwards" title="Back to profile">Back to profile</Link>
+                </div>
             </section>
             
         </Fragment>

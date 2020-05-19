@@ -40,34 +40,37 @@ const Login = () => {
     return (
        <Fragment>
            <section className="container">
-            <h2><i className="fas fa-user"></i> Log in to your account</h2>
-            <form className="form" onSubmit={e => onSubmit(e)}>
-                <div className="form-group">
-                    <label htmlFor="Email">Email:</label><br />
-                    <input
-                        type="email"
-                        id="Email"
-                        name='email'
-                        value={email}
-                        onChange={e => onChange(e)}
-                        required  />
-                </div>
-                <div className="form-group">
-                    <label htmlFor="Password">Password:</label><br />
-                    <input
-                        type="password"
-                        id="Password"
-                        minLength="6"
-                        name='password'
-                        value={password}
-                        onChange={e => onChange(e)}
-                        required  />
-                </div>
-                <input type="submit" className="btn btn-dark btn-login" value="Log in" />
-            </form>
-            <p className="signup">
-                Don't have an account? <Link to="/register" title="Go to register page" className="btn btn-red btn-create">Register</Link>
-            </p>
+            <div className="form-container">
+                <h2 className="form-header">Sign in</h2>
+                <h3 className="sub-header"><i className="fas fa-user"></i> Sign in to your account</h3>
+                <form className="form" onSubmit={e => onSubmit(e)}>
+                    <div className="form-group">
+                        <label htmlFor="Email">Email:</label><br />
+                        <input
+                            type="email"
+                            id="Email"
+                            name='email'
+                            value={email}
+                            onChange={e => onChange(e)}
+                            required  />
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="Password">Password:</label><br />
+                        <input
+                            type="password"
+                            id="Password"
+                            minLength="6"
+                            name='password'
+                            value={password}
+                            onChange={e => onChange(e)}
+                            required  />
+                    </div>
+                    <input type="submit" className="btn btn-dark btn-login" value="Sign in" />
+                </form>
+                <p className="signup">
+                    Don't have an account? <Link to="/register" title="Go to register page" className="btn btn-red btn-create">Register</Link>
+                </p>
+            </div>
         </section>
        </Fragment>
     )

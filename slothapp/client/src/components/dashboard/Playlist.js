@@ -52,6 +52,7 @@ const Playlist = () => {
     useEffect(() => {
         getSharedPlaylists(shareDispatch);
     }, []);
+    
     // Läsa ut delade spellistor
     const shared_playlists = shareData.shares;
 
@@ -102,7 +103,7 @@ const Playlist = () => {
                                     
                                     { songData !== null && songs !== undefined && songs.length > 0 && songs.map(song => (
                                             <div key={song.song_id} className="list-element songs">
-                                                <Link to="#!" onClick={e => setUrl(song.song_url, song.song_id)}><i className="far fa-play-circle"></i> {song.song_name}</Link><button onClick={e => deleteSong(id, song.song_id, songDispatch)} type="button" className="btn-delete"><i className="fas fa-trash-alt"></i></button>
+                                                <Link to="#!" onClick={e => setUrl(song.song_url, song.song_id)}><i className="far fa-play-circle"></i> {song.song_name}</Link><button onClick={e => deleteSong(id, song.song_id, songDispatch)} type="button" className="btn-delete" title="Delete song"><i className="fas fa-trash-alt"></i></button>
                                             </div>
                                     ))}
     

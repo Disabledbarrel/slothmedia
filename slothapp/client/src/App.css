@@ -42,7 +42,6 @@
 }
 
 .btn {
-  border-radius: 5px;
   padding: 5px 20px;
   cursor: pointer;
   font-family: "Montserrat Alternates", sans-serif;
@@ -81,6 +80,7 @@
 .far.fa-edit, .far.fa-share-square {
   float: right;
   margin-left: 10px;
+  font-size: 1.2rem;
 }
 .btn.btn-red {
   background-color: #ea5455;
@@ -122,7 +122,20 @@
 .round-img {
   border-radius: 50%;
 }
-
+.form-container {
+  width: 600px;
+  margin: auto auto;
+}
+.form-header {
+  font-family: "Ubuntu", sans-serif;
+  font-weight: lighter;
+  color: #ea5455;
+  font-size: 2.2rem;
+  margin: 20px 0 20px 0;
+}
+.sub-header {
+  font-weight: lighter;
+}
 .form-group {
   margin: 1.2rem 0;
 }
@@ -492,6 +505,7 @@ img {
 
 .profile-container .profile {
   background-color: #eeeeee;
+  background-image: linear-gradient(to right, #cecdcd , #eeeeee);
   margin: 20px;
   -ms-grid-column: 1;
   -ms-grid-column-span: 4;
@@ -596,7 +610,7 @@ img {
     overflow: visible;
   }
   .container h2 {
-    font-size: 1.3rem;
+    font-size: 2rem;
   }
   .container .profile-container .profile {
     display: block;
@@ -627,6 +641,12 @@ img {
   }
   .list-element {
     margin-bottom: 25px;
+  }
+  .form-container {
+    width: 100%;
+  }
+  .sub-header {
+    font-size: 1rem;
   }
 }
 

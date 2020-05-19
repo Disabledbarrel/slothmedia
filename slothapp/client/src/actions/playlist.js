@@ -2,7 +2,8 @@ import axios from 'axios';
 
 import {
     GET_PLAYLIST,
-    PLAYLIST_ERROR
+    PLAYLIST_ERROR,
+    DELETE_PLAYLIST
 } from './types';
 
 // Get playlist action
@@ -22,13 +23,13 @@ export const getCurrentPlaylists = async (playlistDispatch) => {
 }
 
 // Create playlist action
-export const createPlaylist = async (type, title, playlistDispatch) => {
+export const createPlaylist = async (title, playlistDispatch) => {
     const config = {
         headers: {
             'Content-type': 'application/json'
         }
     }
-    const body = JSON.stringify({ public_type: type, playlist_name: title });
+    const body = JSON.stringify({ playlist_name: title });
 
     try {
         await axios.post('http://localhost:5000/api/playlists', body, config);
@@ -48,13 +49,13 @@ export const createPlaylist = async (type, title, playlistDispatch) => {
 }
 
 // Update playlist action
-export const editPlaylist = async (id, type, title, playlistDispatch) => {
+export const editPlaylist = async (id, title, playlistDispatch) => {
     const config = {
         headers: {
             'Content-type': 'application/json'
         }
     }
-    const body = JSON.stringify({ public_type: type, playlist_name: title });
+    const body = JSON.stringify({ playlist_name: title });
 
     try {
         await axios.put(`http://localhost:5000/api/playlists/${id}`, body, config);
@@ -70,5 +71,22 @@ export const editPlaylist = async (id, type, title, playlistDispatch) => {
             payload: { msg: err.response, status: err.response}
         });
         return false;
+    }
+}
+
+// Delete playlist action 
+export const deletePlaylist = async (id, playlistDispatch) => {
+    
+    try {
+        await axios.delete(`http://localhost:5000/api/playlists/${id}`);
+        playlistDispatch({
+            type: DELETE_PLAYLIST,
+            payload: id
+        });
+    } catch (err) {
+        playlistDispatch({
+            type: PLAYLIST_ERROR,
+            payload: { msg: err.response, status: err.response}
+        });
     }
 }
