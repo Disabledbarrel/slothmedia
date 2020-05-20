@@ -57,6 +57,7 @@
 }
 .btn-backwards, .btn-creating {
   float: left;
+  margin-top: 30px;
 }
 .btn-create {
   margin-right: 10px;
@@ -66,7 +67,9 @@
   background-color: #eeeeee;
   color: #303841;
 }
-
+label {
+  font-weight: 800;
+}
 .btn.btn-dark:hover a {
   background-color: #eeeeee;
   color: #303841;
@@ -76,6 +79,9 @@
 }
 .list-element {
   margin-bottom: 20px;
+}
+.list-element i {
+  margin-right: 10px;
 }
 .far.fa-edit, .far.fa-share-square {
   float: right;
@@ -124,7 +130,9 @@
 }
 .form-container {
   width: 600px;
-  margin: auto auto;
+  margin: 50px auto 50px auto;
+  padding: 1.2rem;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 .form-header {
   font-family: "Ubuntu", sans-serif;
@@ -540,7 +548,8 @@ img {
 }
 #media-wrapper {
   grid-column: 1/5;
-  margin: auto auto;
+  width: 30%;
+  margin: 10px auto 10px auto;
 }
 .shared-content {
   background-color: white;
@@ -552,6 +561,63 @@ img {
 .songs-header {
   margin-bottom: 10px;
 }
+
+/* React-player */
+/* Slider */
+.slider {
+  -webkit-appearance: none; 
+  appearance: none;
+  width: 100%; 
+  height: 10px; 
+  background: white;
+  outline: none;
+}
+
+/* The slider handle (use -webkit- (Chrome, Opera, Safari, Edge) and -moz- (Firefox) to override default look) */
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none; 
+  appearance: none;
+  width: 15px; 
+  height: 15px; 
+  background: #ffe36e; 
+  cursor: pointer;
+  border-radius: 50%;
+  border: 1px solid #303841;
+}
+
+.slider::-moz-range-thumb {
+  width: 15px; 
+  height: 15px; 
+  background: #fcd94c; 
+  cursor: pointer;
+  border-radius: 50%;
+  border: 1px solid #303841;
+}
+.flex-btns {
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+      justify-content: center;
+  padding: 8px;
+}
+.player-btn {
+  border: none;
+  color: #303841;
+  font-size: 1.2rem;
+  background-color: transparent;
+  cursor: pointer;
+}
+.player-btn:focus {
+    outline: none;
+}
+.fas.fa-play-circle, .fas.fa-pause-circle {
+  font-size: 2rem;
+  margin: 0 20px 0 20px;
+}
+
 @media (max-width: 769px) {
   .hide-sm {
     display: none;
@@ -633,6 +699,9 @@ img {
     text-align: center;
     width: 100%;
   }
+  .btn-backwards {
+    margin-top: 10px;
+  }
   .signup {
     margin-top: 10px;
   }
@@ -642,11 +711,21 @@ img {
   .list-element {
     margin-bottom: 25px;
   }
+  .list-element i {
+    margin-right: 0;
+    margin-left: 5px;
+  }
   .form-container {
     width: 100%;
   }
+  .container-heading {
+    font-size: 1.5rem !important;
+  }
   .sub-header {
     font-size: 1rem;
+  }
+  #media-wrapper {
+    width: 100%;
   }
 }
 

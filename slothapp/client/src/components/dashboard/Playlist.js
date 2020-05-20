@@ -1,4 +1,4 @@
-import React, { Fragment, useContext, useEffect, useState } from 'react';
+import React, { Fragment, useContext, useEffect, useState, useRef } from 'react';
 import { AuthContext } from '../../contexts/AuthContext';
 import { PlaylistContext } from '../../contexts/PlaylistContext';
 import { ShareContext } from '../../contexts/ShareContext';
@@ -13,11 +13,14 @@ const Playlist = () => {
     const [playerData, setPlayerData] = useState({
         url: '',
         playing: false,
-        song_id: null 
+        index: 0,
+        seeking: false,
+        played: 0
     });
-    const { url, playing, song_id } = playerData;
+    const { url, playing, index, seeking, played } = playerData;
 
     const { id } = useParams();
+    const player = useRef(ReactPlayer);
     
     // Konsumera context
     const { authData } = useContext(AuthContext);
@@ -54,8 +57,8 @@ const Playlist = () => {
     }, []);
 
     useEffect(() => {
-        if(!songData.loading && songData.songs !== undefined) {
-            setUrl(songData.songs[0].song_url);
+        if(!songData.loading && songData.songs !== undefined && songData.songs.length > 0) {
+            setUrl(songData.songs[0].song_url, false, 0);
         }  
     }, [songData]);
     
@@ -63,24 +66,51 @@ const Playlist = () => {
     const shared_playlists = shareData.shares;
 
     // Sätt sång-url
-    const setUrl = (inurl, current_id, playing) => {
-        setPlayerData({ ...playerData, url: inurl, song_id: current_id, playing: playing });
+    const setUrl = (inurl, playing, index, played) => {
+        setPlayerData({ ...playerData, url: inurl, playing: playing, index: index, played: played });
     }
+    // Spela/pausa
+    const handlePlayPause = (playing) => {
+        setPlayerData({ ...playerData, playing: !playing })
+      }
     // Spela nästa låt
-    const playNextSong = (id) => {
+    const playNextSong = (index) => {
         const array = songData.songs;
-        for(var i=0; i<array.length; i++) {
-            if(i+1 === array.length) {
-                break // Stoppa loopen om man är på sista sången i spellistan
-            }
-            if(array[i].song_id === id ) {
-                let new_id = array[i+1].song_id;
-                let new_url = array[i+1].song_url;
-                setUrl(new_url, new_id);
-                break
-            }
+        index++;
+        if(index < array.length) {
+            let new_url = array[index].song_url;
+            setUrl(new_url, true, index, 0);
         }
     }
+    // Spela föregående låt
+    const playPrevSong = (index) => {
+        const array = songData.songs;
+        index--;
+        if(index >= 0) {
+            let new_url = array[index].song_url;
+            setUrl(new_url, true, index, 0);
+        }
+    }
+
+    // Spola i låten
+    const handleSeekMouseDown = e => {
+        setPlayerData({ ...playerData, seeking: true })
+    }
+    const handleSeekChange = e => {
+        setPlayerData({ ...playerData, played: parseFloat(e.target.value) })
+    }
+    const handleSeekMouseUp = e => {
+        setPlayerData({ ...playerData, seeking: false })
+        if (player.current) {
+            player.current.seekTo(parseFloat(e.currentTarget.value));
+          }
+    }
+    const handleProgress = e => {
+        if (!seeking) {
+           setPlayerData({ ...playerData, played: e.played })
+        }
+      }
+
 
     // Om användare inte är inloggad
     if(!authData.isAuthenticated === true && !authData.loading) {
@@ -95,21 +125,38 @@ const Playlist = () => {
                             <div className="profile">
                                 <div id="media-wrapper">
                                     <ReactPlayer
+                                        ref={player}
                                         className='react-player'
                                         width='100%'
                                         height='100%'
                                         playing={playing}
                                         url={url}
-                                        onEnded={e => playNextSong(song_id)}
+                                        onEnded={e => playNextSong(index)}
+                                        onProgress={e => handleProgress(e)}
                                     />
+                                    <div className="player-control">
+                                        <input
+                                            className="slider"
+                                            type='range' min={0} max={0.999999} step='any'
+                                            value={played || 0}
+                                            onMouseDown={e => handleSeekMouseDown(e)}
+                                            onChange={e => handleSeekChange(e)}
+                                            onMouseUp={e => handleSeekMouseUp(e)}
+                                        />
+                                        <div className="flex-btns">
+                                            <button onClick={e => playPrevSong(index)} className="player-btn"><i className="fas fa-step-backward"></i></button>
+                                            <button onClick={e => handlePlayPause(playing)} className="player-btn">{playing ? <i className="fas fa-pause-circle"></i> : <i className="fas fa-play-circle"></i>}</button>
+                                            <button onClick={e => playNextSong(index)} className="player-btn"><i className="fas fa-step-forward"></i></button>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <section className="profile-content">
                                 <h2 className="list-header">{getNameById(id, playlistData.playlists, shared_playlists.data)}</h2>
                                     
-                                    { songData !== null && songs !== undefined && songs.length > 0 && songs.map(song => (
+                                    { songData !== null && songs !== undefined && songs.length > 0 && songs.map((song, index) => (
                                             <div key={song.song_id} className="list-element songs">
-                                                <Link to="#!" onClick={e => setUrl(song.song_url, song.song_id, true)}><i className="far fa-play-circle"></i> {song.song_name}</Link><button onClick={e => deleteSong(id, song.song_id, songDispatch)} type="button" className="btn-delete" title="Delete song"><i className="fas fa-trash-alt"></i></button>
+                                                <Link to="#!" onClick={e => setUrl(song.song_url, true, index, 0)}><i className="far fa-play-circle"></i> {song.song_name}</Link><button onClick={e => deleteSong(id, song.song_id, songDispatch)} type="button" className="btn-delete" title="Delete song"><i className="fas fa-trash-alt"></i></button>
                                             </div>
                                     ))}
     

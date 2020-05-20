@@ -27,7 +27,7 @@ const Landing = () => {
                         <i className="fas fa-headphones"></i>
                     </div>
                     <h4>No commercial breaks</h4>
-                    <p>Just enjoy the music</p>
+                    <p>Just listen and enjoy the music</p>
                 </div>
                 <div className="information-container-three">
                     <div className="icon-container">
