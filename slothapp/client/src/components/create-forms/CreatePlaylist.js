@@ -44,7 +44,7 @@ const CreatePlaylist = () => {
 
     return (
         <Fragment>
-            <section className="container">
+            <section className="container container-img">
                 <div className="form-container">
                     <h2 className="form-header"><i className="fas fa-play-circle"></i> Create Playlist</h2>
                     <form action="playlist.html" className="form" onSubmit={e => onSubmit(e)}>

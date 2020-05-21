@@ -156,7 +156,7 @@ const Playlist = () => {
                                     
                                     { songData !== null && songs !== undefined && songs.length > 0 && songs.map((song, index) => (
                                             <div key={song.song_id} className="list-element songs">
-                                                <Link to="#!" onClick={e => setUrl(song.song_url, true, index, 0)}><i className="far fa-play-circle"></i> {song.song_name}</Link><button onClick={e => deleteSong(id, song.song_id, songDispatch)} type="button" className="btn-delete" title="Delete song"><i className="fas fa-trash-alt"></i></button>
+                                                <Link to="#!" onClick={e => setUrl(song.song_url, true, index, 0)} className="songs-render"><i className="far fa-play-circle"></i> {song.song_name}</Link><button onClick={e => deleteSong(id, song.song_id, songDispatch)} type="button" className="btn-delete" title="Delete song"><i className="fas fa-trash-alt"></i></button>
                                             </div>
                                     ))}
     
