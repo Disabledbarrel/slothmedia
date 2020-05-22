@@ -37,37 +37,37 @@ const Dashboard = () => {
         return (
             <Fragment>
                 <section className="container">
-                    <div className="profile-container">
-                        <div className="profile">
-                            <img src={authData.user.avatar} alt="profile" className="round-img" />
-                            <div className="profile-header">
-                                <h2 className="container-heading"><i className="fas fa-user-circle"></i> Dashboard</h2>
-                                <p>Welcome {authData.user !== null ? authData.user.user_name : ''}!</p>
+                        <div className="profile-container">
+                            <div className="profile">
+                                <img src={authData.user.avatar} alt="profile" className="round-img" />
+                                <div className="profile-header">
+                                    <h2 className="container-heading"><i className="fas fa-user-circle"></i> Dashboard</h2>
+                                    <p>Welcome {authData.user !== null ? authData.user.user_name : ''}!</p>
+                                </div>
+                            </div>
+                            <div className="profile-content">
+                                <h3 className="list-header">My playlists</h3>
+                                    { playlistData !== null && playlists !== undefined && playlists.length > 0 && playlists.map(playlist => (
+                                        <div key={playlist.playlist_id} className="list-element">
+                                            <button onClick={e => deletePlaylist(playlist.playlist_id, playlistDispatch)} type="button" className="btn-delete" title="Delete playlist"><i className="fas fa-trash-alt"></i></button>
+                                            <Link to={`/playlist/${playlist.playlist_id}`} title="Go to playlist"><i className="fas fa-compact-disc"></i> {playlist.playlist_name}</Link>
+                                            <Link to={`/editplaylist/${playlist.playlist_id}`} title="Go to edit playlist"><i className="far fa-edit"></i></Link>
+                                            <Link to={`/shareplaylist/${playlist.playlist_id}`} title="Share playlist"><i className="far fa-share-square"></i></Link>
+                                        </div>
+                                    ))}
+                                <Link to="/createplaylist" className="btn btn-red btn-list" title="Go to create playlist">Create Playlist</Link>
                             </div>
                         </div>
-                        <div className="profile-content">
-                            <h3 className="list-header">My playlists</h3>
-                                { playlistData !== null && playlists !== undefined && playlists.length > 0 && playlists.map(playlist => (
-                                    <div key={playlist.playlist_id} className="list-element">
-                                        <button onClick={e => deletePlaylist(playlist.playlist_id, playlistDispatch)} type="button" className="btn-delete" title="Delete playlist"><i className="fas fa-trash-alt"></i></button>
-                                        <Link to={`/playlist/${playlist.playlist_id}`} title="Go to playlist"><i className="fas fa-compact-disc"></i> {playlist.playlist_name}</Link>
-                                        <Link to={`/editplaylist/${playlist.playlist_id}`} title="Go to edit playlist"><i className="far fa-edit"></i></Link>
-                                        <Link to={`/shareplaylist/${playlist.playlist_id}`} title="Share playlist"><i className="far fa-share-square"></i></Link>
-                                    </div>
-                                ))}
-                            <Link to="/createplaylist" className="btn btn-red btn-list" title="Go to create playlist">Create Playlist</Link>
-                        </div>
-                    </div>
-                    <div className="shared-content">
-                            <div className="shared-list">
-                                <h3 className="songs-header">Playlists shared with me</h3>
-                                { shareData !== null && shared_playlists !== undefined && shared_playlists.data !== undefined && shared_playlists.data.length > 0 && shared_playlists.data.map(playlist => (
-                                    <div key={playlist.playlist_id} className="list-element">
-                                        <Link to={`/playlist/${playlist.playlist_id}`} title="Go to playlist"><i className="fas fa-compact-disc"></i> {playlist.playlist_name}</Link>
-                                    </div>
-                                ))}
+                        <div className="shared-content">
+                                <div className="shared-list">
+                                    <h3 className="songs-header">Playlists shared with me</h3>
+                                    { shareData !== null && shared_playlists !== undefined && shared_playlists.data !== undefined && shared_playlists.data.length > 0 && shared_playlists.data.map(playlist => (
+                                        <div key={playlist.playlist_id} className="list-element">
+                                            <Link to={`/playlist/${playlist.playlist_id}`} title="Go to playlist"><i className="fas fa-compact-disc"></i> {playlist.playlist_name}</Link>
+                                        </div>
+                                    ))}
+                                </div>
                             </div>
-                        </div>
                 </section>
             </Fragment>
         )

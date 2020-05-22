@@ -69,8 +69,8 @@ const CreatePlaylist = () => {
     return (
         <Fragment>
             <section className="container">
-                <div className="form-container">
-                    <h2 className="form-header"><i className="fas fa-play-circle"></i> Add song to: {getNameById(id, playlistData.playlists, shared_playlists.data)}</h2>
+                <div className="form-container create-container">
+                    <h2 className="form-header"><i className="fas fa-play-circle"></i>Add song to: {getNameById(id, playlistData.playlists, shared_playlists.data)}</h2>
                     <form className="form" onSubmit={e => onSubmit(e)}>
                         <div className="form-group">
                             <label htmlFor="song_name">Song name:</label><br />

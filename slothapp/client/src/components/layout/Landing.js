@@ -17,7 +17,7 @@ const Landing = () => {
                 <h3>Why Slothmedia?</h3>
                 <div className="information-container-one">
                     <div className="icon-container">
-                        <i className="fas fa-play-circle"></i>
+                        <i className="fas fa-music"></i>
                     </div>
                     <h4>Create your own playlists</h4>
                     <p>Use music from many sources</p>

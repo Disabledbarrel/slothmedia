@@ -1,4 +1,7 @@
 @charset "UTF-8";
+html {
+  height: 100%;
+}
 /* Färgvariabler */
 .container {
   max-width: 1500px;
@@ -57,7 +60,7 @@
 }
 .btn-backwards, .btn-creating {
   float: left;
-  margin-top: 30px;
+  margin-top: 20px;
 }
 .btn-create {
   margin-right: 10px;
@@ -111,7 +114,12 @@ label {
   background-color: #ed6b6c;
   border-color: #ed6b6c;
 }
-
+.btn-login {
+  margin-top: 10px;
+}
+.signup a {
+  margin-left: 15px;
+}
 .alert {
   max-width: 700px;
   overflow: hidden;
@@ -138,8 +146,11 @@ label {
 .form-container {
   width: 600px;
   margin: 50px auto 50px auto;
-  padding: 1.2rem;
+  padding: 1.7rem;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+.create-container {
+  padding-bottom: 100px !important;
 }
 .form-header {
   font-family: "Ubuntu", sans-serif;
@@ -189,6 +200,7 @@ body {
   font-family: 'Quicksand', sans-serif;
   background-color: #eeeeee;
   color: #303841;
+  height: 100%;
 }
 
 * {
@@ -231,6 +243,7 @@ img {
 
 .header-inner {
   max-width: 1500px;
+  height: 100%;
   margin: auto auto;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -238,16 +251,16 @@ img {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
-  padding: 0 3rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 200px;
+  padding: 0 0 0 3rem;
 }
 
 .header-inner div {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+  grid-column: 1/2;
 }
 
 .header-inner div img {
@@ -276,16 +289,21 @@ img {
 }
 .navbar {
   margin: auto 0 auto 0;
+  grid-column: 3/5;
 }
 
 .navbar ul {
   text-align: center;
   right: 0;
+  margin: auto auto;
+  display: flex;
+  justify-content: flex-end;
+  
 }
 
 .navbar li {
   display: inline-block;
-  margin-left: 20px;
+  margin: auto 0 auto 20px;
 }
 
 .navbar a, .navbar a:visited {
@@ -520,7 +538,7 @@ img {
 
 .profile-container .profile {
   background-color: #eeeeee;
-  background-image: linear-gradient(to right, #cecdcd , #eeeeee);
+  background-image: linear-gradient(to right, #9c9c9c , #eeeeee);
   margin: 20px;
   -ms-grid-column: 1;
   -ms-grid-column-span: 4;
@@ -545,6 +563,9 @@ img {
   -ms-grid-column-span: 3;
   grid-column: 2/5;
   padding: 20px;
+}
+.profile-header p {
+  font-size: 1.3rem;
 }
 
 .profile-container .profile-content {
@@ -635,17 +656,69 @@ img {
   margin: 0 20px 0 20px;
 }
 
+/* Liten meny */
+.toggle-container {
+  height: 100%;
+  position: relative;
+  width: 200px;
+  grid-column: 5/5 !important;
+}
+.small-menu {
+  height: 300px;
+  background-color: #1c2025;
+  width: 100%;
+  max-width: 200px;
+  z-index: 200;
+  position: absolute;
+  top: 77px;
+}
+.small-menu ul {
+ text-align: center;
+ margin-top: 20px;
+ padding: 20px;
+ width: 100%;
+}
+.small-menu ul li {
+  padding: 10px 0 10px 0;
+  font-size: 1.3rem;
+  border-top: 1px solid #ffe36e;
+}
+.small-menu ul li:first-child {
+  border: none;
+}
+.small-menu a {
+  color: #eeeeee;
+}
+.toggle-button {
+  background-color: #303841;
+  color: #eeeeee;
+  border: none;
+  font-size: 2rem;
+  width: 100%;
+}
+.toggle-button:active, .toggle-button:focus {
+  border: none;
+  outline: none;
+}
+
 @media (max-width: 769px) {
   .hide-sm {
     display: none;
   }
   .main-header {
     position: relative;
+    height: 100%;
   }
   .header-inner {
     width: 100%;
     display: block;
     padding: 10px;
+  }
+  .header-div {
+    margin-bottom: 10px;
+  }
+  .header-inner div a {
+    margin: auto 0 auto 0;
   }
   .landing {
     height: 40vh;
@@ -699,6 +772,9 @@ img {
     display: block;
     text-align: center;
   }
+  .profile img {
+    margin-top: 15px !important;
+  }
   .btn-share {
     margin: 10px 0 0 0;
   }
@@ -715,7 +791,10 @@ img {
     margin-top: 10px;
   }
   .signup {
-    margin-top: 10px;
+    margin-top: 20px;
+  }
+  .signup a {
+    margin: 0;
   }
   .list-header {
     margin-bottom: 15px;
@@ -742,6 +821,14 @@ img {
     margin: 0;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   }
+  .create-container {
+    padding: 25px 25px 140px 25px !important;
+  }
+  .form-header {
+    font-size: 1.8rem !important;
+  }
+
+  /* Small Menu */
   
 }
 

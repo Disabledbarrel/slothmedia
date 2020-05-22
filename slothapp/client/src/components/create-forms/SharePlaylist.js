@@ -54,7 +54,7 @@ const SharePlaylist = () => {
         return (
             <Fragment>
                <section className="container">
-                   <div className="form-container">
+                   <div className="form-container create-container">
                     <h2 className="form-header"><i className="fas fa-play-circle"></i> Share playlist: {playlists !== null ? playlists[0].playlist_name : ''}</h2>
                     <form className="form" onSubmit={e => onSubmit(e)}>
                         <div className="form-group">

@@ -11,6 +11,7 @@ import EditPlaylist from './components/create-forms/EditPlaylist';
 import Playlist from './components/dashboard/Playlist';
 import AddSong from './components/create-forms/AddSong';
 import SharePlaylist from './components/create-forms/SharePlaylist';
+
 // Context
 import AuthContextProvider from './contexts/AuthContext';
 import AlertContextProvider from './contexts/AlertContext';
@@ -20,7 +21,6 @@ import SongContextProvider from './contexts/SongContext';
 import ShareContextProvider from './contexts/ShareContext';
 
 import './App.css';
-
 
 if(localStorage.token) {
     setAuthToken(localStorage.token);
@@ -35,7 +35,7 @@ const App = () => {
                     <SongContextProvider>
                         <ShareContextProvider>
                             <Router>
-                                <Fragment>
+                                <div style={{height: '100%'}}>
                                     <Navbar />
                                     <Route exact path ='/' component={Landing} />
                                     <Fragment>
@@ -51,7 +51,7 @@ const App = () => {
                                             <Route exact path="/shareplaylist/:id" component={SharePlaylist} />
                                         </Switch>
                                     </Fragment>
-                                </Fragment>
+                                </div>
                             </Router>
                         </ShareContextProvider>
                     </SongContextProvider>
