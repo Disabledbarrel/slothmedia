@@ -15,8 +15,8 @@ function Navbar() {
     // Länkar
     const guestLinks = (
         <ul>
-            <li className="btn btn-dark"><Link to="/login" title="Go to the log in page">Sign in</Link></li>
-            <li className="btn btn-red"><Link to="/register" title="Go to the register page">Register</Link></li>
+            <li className="btn btn-dark btn-header"><Link to="/login" title="Go to the log in page">Sign in</Link></li>
+            <li className="btn btn-red btn-header"><Link to="/register" title="Go to the register page">Register</Link></li>
         </ul>
     );
     const authLinks = (
@@ -36,7 +36,6 @@ function Navbar() {
     let toggleSideBar;
 
     const onClick = () => {
-        console.log('hej');
         setShowMenu({...showMenu, sideBarOpen: !sideBarOpen});
     }
     if(sideBarOpen) {
@@ -48,14 +47,14 @@ function Navbar() {
         <header className="main-header bg-dark">
             <div className="header-inner bg-dark">
                 <div className="header-div">
-                    <Link to="/" title="Go to landing page"><img src={Logo} alt="Slothmedia logotype" /></Link>
+                    <Link to="/" title="Go to landing page" className="logo-link"><img src={Logo} alt="Slothmedia logotype" /></Link>
                     <Link to="/" title="Go to landing page" className="header-link"><h1>Slothmedia</h1></Link>
                 </div>
                 <nav className="navbar">
                     { !loading && (<Fragment>{ isAuthenticated ? authLinks : guestLinks }</Fragment>) }
                 </nav>
                 <div className="toggle-container">
-                    <button className="toggle-button" onClick={onClick}>
+                    <button className="toggle-button" onClick={onClick} title="toggle menu">
                             <i className="fas fa-ellipsis-h"></i>
                     </button>
                     {toggleSideBar}

@@ -247,7 +247,6 @@ img {
   margin: auto auto;
   display: -webkit-box;
   display: -ms-flexbox;
-  display: flex;
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
@@ -464,6 +463,17 @@ img {
   width: 50%;
   margin: auto auto;
 }
+.about-pic {
+  width: 80%;
+}
+.about-info div {
+  text-align: left;
+  margin-top: 30px;
+}
+.about-header {
+  font-size: 2rem;
+  margin-bottom: 30px;
+}
 
 .about h5 {
   font-size: 1.5rem;
@@ -493,6 +503,16 @@ img {
 
 .container .btn-dark {
   border: 1px solid #303841;
+}
+.about-subheading {
+  margin-bottom: 20px;
+}
+.about-concept {
+  margin: 30px 0 30px 0;
+}
+.info-text {
+  grid-column: 1/5;
+  margin-top: 20px;
 }
 
 .main-footer {
@@ -683,6 +703,9 @@ img {
   font-size: 1.3rem;
   border-top: 1px solid #ffe36e;
 }
+.small-menu ul li:hover {
+  background-color: #303841;
+}
 .small-menu ul li:first-child {
   border: none;
 }
@@ -695,10 +718,18 @@ img {
   border: none;
   font-size: 2rem;
   width: 100%;
+  cursor: pointer;
 }
 .toggle-button:active, .toggle-button:focus {
   border: none;
   outline: none;
+}
+.terms-link {
+  text-decoration: underline;
+}
+.terms-link:hover {
+  border: none !important;
+  cursor: pointer;
 }
 
 @media (max-width: 769px) {
@@ -711,14 +742,40 @@ img {
   }
   .header-inner {
     width: 100%;
-    display: block;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-content: space-between;
     padding: 10px;
   }
+  .toggle-container {
+    width: 40%;
+  }
   .header-div {
-    margin-bottom: 10px;
+    margin-bottom: auto 0 auto 0;
+  }
+  .header-div h1 {
+    font-size: 1rem;
+    text-align: right;
+  }
+  .logo-link img {
+    width: 50px !important;
+  }
+  .btn-header {
+    padding: 5px 10px;
+  }
+  .btn-header a {
+    font-size: small;
   }
   .header-inner div a {
     margin: auto 0 auto 0;
+  }
+  .navbar {
+    margin: auto auto;
+  }
+  .small-menu {
+    top: 45px
   }
   .landing {
     height: 40vh;
@@ -761,7 +818,7 @@ img {
   }
   .container {
     width: 100%;
-    margin: 2rem 0 0 0;
+    margin: 1rem 0 0 0;
     padding: 0 10px;
     overflow: visible;
   }
@@ -808,6 +865,7 @@ img {
   }
   .form-container {
     width: 100%;
+    margin-top: 25px;
   }
   .container-heading {
     font-size: 1.5rem !important;
@@ -827,8 +885,13 @@ img {
   .form-header {
     font-size: 1.8rem !important;
   }
-
-  /* Small Menu */
+  .about-info div {
+    text-align: center;
+    margin-top: 0;
+  }
+  .about-concept {
+    margin-bottom: 0;
+  }
   
 }
 

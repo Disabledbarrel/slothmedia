@@ -78,7 +78,7 @@ const CreatePlaylist = () => {
                             <small className="form-text">Add a song name</small>
                         </div>
                         <div className="form-group">
-                            <label htmlFor="song_url">Song url:</label><br />
+                            <label htmlFor="song_url">Song URL:</label><br />
                             <input type="url" id="song_url" name='song_url' value={song_url} onChange={e => onChange(e)} required/>
                             <small className="form-text">Add a link to a song (from e.g. Youtube or Soundcloud)</small>
                         </div>

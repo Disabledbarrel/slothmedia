@@ -11,6 +11,8 @@ import EditPlaylist from './components/create-forms/EditPlaylist';
 import Playlist from './components/dashboard/Playlist';
 import AddSong from './components/create-forms/AddSong';
 import SharePlaylist from './components/create-forms/SharePlaylist';
+import About from './components/about/About';
+import Terms from './components/about/Terms';
 
 // Context
 import AuthContextProvider from './contexts/AuthContext';
@@ -49,6 +51,8 @@ const App = () => {
                                             <Route exact path="/playlist/:id" component={Playlist} />
                                             <Route exact path="/addsong/:id" component={AddSong} />
                                             <Route exact path="/shareplaylist/:id" component={SharePlaylist} />
+                                            <Route exact path="/about" component={About} />
+                                            <Route exact path="/terms" component={Terms} />
                                         </Switch>
                                     </Fragment>
                                 </div>

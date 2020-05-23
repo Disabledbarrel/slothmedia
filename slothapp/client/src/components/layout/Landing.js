@@ -41,10 +41,8 @@ const Landing = () => {
                 <img className="concept-img" src={Vinyl} alt="img of a record player" />
                 <div className="concept-text">
                     <h5>How it works</h5>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                        Optio deleniti culpa, quod eius nesciunt vel aliquid tenetur,
-                        ad iusto consequatur sed veniam architecto, harum officia cum quidem nemo
-                        iure eos.</p>
+                    <p>SlothMedia is a free music service that supports music from many sources.
+                    Enjoy endless advertising-free music. Create a playlist and just add the URL's to your favorite songs.</p>
                         <Link to="/about" className="btn btn-dark" title="Read more about how Slothmedia works">Read more</Link>
                 </div>
             </section>
@@ -62,7 +60,7 @@ const Landing = () => {
             <footer className="main-footer bg-dark">
                 <div className="footer-inner bg-dark">
                     <Link to="/about" title="Learn more about SlothMedia's app">About</Link>
-                    <Link to="/help" title="Go to our help page">Help</Link>
+                    <Link to="/terms" title="Go to our help page">Terms</Link>
                     <p>&copy; 2020</p>
                 </div>
             </footer>

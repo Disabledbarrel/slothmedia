@@ -58,7 +58,7 @@ const SharePlaylist = () => {
                     <h2 className="form-header"><i className="fas fa-play-circle"></i> Share playlist: {playlists !== null ? playlists[0].playlist_name : ''}</h2>
                     <form className="form" onSubmit={e => onSubmit(e)}>
                         <div className="form-group">
-                            <label htmlFor="User">Username:</label><br />
+                            <label htmlFor="User">User name:</label><br />
                             <input
                                 type="text"
                                 id="User"
