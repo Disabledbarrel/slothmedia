@@ -17,7 +17,7 @@ const Register = () => {
         }
         const body = JSON.stringify({ 'user_name': name, 'email': email, 'password': password });
         try {
-            await axios.post('http://localhost:5000/api/users', body, config );
+            await axios.post('/api/users', body, config );
             setAlert('User registered!', 'success', alertDispatch);
         } catch (err) {
             setAlert(err.response.data.errors[0].msg, 'danger', alertDispatch);

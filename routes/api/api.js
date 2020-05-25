@@ -2,7 +2,6 @@ const express = require("express");
 const mysql = require('mysql');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const config = require('config');
 const gravatar = require('gravatar');
 const auth = require('../../middleware/auth');
 const { check, validationResult } = require('express-validator');
@@ -11,10 +10,10 @@ const router = express.Router();
 
 // Anslutning till databas
 const connection = mysql.createConnection({
-    host: 'localhost',
-    user: 'sloth_media',
-    password: 'password',
-    database: 'sloth_media'
+    host: process.env.SLOTH_HOST,
+    user: process.env.SLOTH_USER,
+    password: process.env.SLOTH_PASSWORD,
+    database: process.env.SLOTH_DATABASE
 });
 
 connection.connect(err => {
@@ -125,7 +124,7 @@ router.post('/users/login', [
                         }
                     }
                     jwt.sign(payload, 
-                        config.get('jwtToken'),
+                        process.env.SLOTH_TOKEN,
                         { expiresIn: 360000 },
                         (err, token) => {
                             if(err) return res.send(err);

@@ -1,5 +1,4 @@
 const jwt = require('jsonwebtoken');
-const config = require('config');
 
 module.exports = (req, res, next) => {
     // Hämta token från header
@@ -14,7 +13,7 @@ module.exports = (req, res, next) => {
 
     // Validera token
     try {
-        const decoded = jwt.verify(token, config.get('jwtToken'));
+        const decoded = jwt.verify(token, process.env.SLOTH_TOKEN);
         req.user = decoded.user;
         next();
     } catch(err) {

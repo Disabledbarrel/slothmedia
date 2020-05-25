@@ -42,7 +42,10 @@ const About = () => {
                     </div>
                     <img className="about-img about-pic" src={VinylShelf} alt="img of a record player" />
                 </div>
-                
+                <div className="concept bg-primary about-concept">
+                <h2 className="about-header">Contact</h2>
+                 <p><a href="mailto:kontakt@inlibrisveritas.se" className="terms-link">kontakt@inlibrisveritas.se</a></p>
+                </div>
             </section>
             
             
