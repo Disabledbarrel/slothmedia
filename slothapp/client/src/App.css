@@ -178,7 +178,10 @@ label {
   font-size: 1.2rem;
   border: 1px solid #ccc;
 }
-
+.form input[type='checkbox'] {
+  margin: 5px 10px 15px 0;
+  float: left;
+}
 .form input[type='text']:focus,
 .form input[type='email']:focus,
 .form input[type='password']:focus,
@@ -722,7 +725,7 @@ img {
 }
 .toggle-button:active, .toggle-button:focus {
   border: none;
-  outline: none;
+  outline: 2px solid #ffe36e;
 }
 .terms-link {
   text-decoration: underline;
@@ -892,7 +895,9 @@ img {
   .about-concept {
     margin-bottom: 0;
   }
-  
+  .checkbox-text {
+    font-size: small;
+  }
 }
 
 @media (max-width: 1025px) {

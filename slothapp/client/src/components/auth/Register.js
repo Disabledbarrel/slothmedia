@@ -92,6 +92,8 @@ const Register = () => {
                                 required
                                 />
                         </div>
+                        <input type="checkbox" name="checked" id="checkbox" required/> 
+                             <p className="checkbox-text">I agree to the storage of the above information</p>
                         <input type="submit" className="btn btn-red btn-create btn-login" value="Register" />
                     </form>
                     <p className="signup">

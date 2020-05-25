@@ -17,7 +17,7 @@ const About = () => {
                         Streamable, Vimeo, Wistia, Mixcloud, and DailyMotion.
                         </p>
                         <p>
-                        <Link to="/terms" title="Go to terms page" className="terms-link">Read our Terms Of Use and Privacy Policy</Link>
+                        <Link to="/terms" title="Go to terms page" className="terms-link">Read our Privacy Policy</Link>
                         </p>
                         <p>
                             <Link to="/register" title="Go to register page" className="btn btn-red btn-create">Register</Link>
