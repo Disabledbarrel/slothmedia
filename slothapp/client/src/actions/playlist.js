@@ -9,7 +9,7 @@ import {
 // Get playlist action
 export const getCurrentPlaylists = async (playlistDispatch) => {
     try {
-        const res = await axios.get('http://localhost:5000/api/playlists');
+        const res = await axios.get('/api/playlists');
         playlistDispatch({
             type: GET_PLAYLIST,
             payload: res.data.data
@@ -32,7 +32,7 @@ export const createPlaylist = async (title, playlistDispatch) => {
     const body = JSON.stringify({ playlist_name: title });
 
     try {
-        await axios.post('http://localhost:5000/api/playlists', body, config);
+        await axios.post('/api/playlists', body, config);
         playlistDispatch({
             type: GET_PLAYLIST,
             payload: [] // För att inte skriva över med svar från API
@@ -58,7 +58,7 @@ export const editPlaylist = async (id, title, playlistDispatch) => {
     const body = JSON.stringify({ playlist_name: title });
 
     try {
-        await axios.put(`http://localhost:5000/api/playlists/${id}`, body, config);
+        await axios.put(`/api/playlists/${id}`, body, config);
         playlistDispatch({
             type: GET_PLAYLIST,
             payload: [] // För att inte skriva över med svar från API
@@ -78,7 +78,7 @@ export const editPlaylist = async (id, title, playlistDispatch) => {
 export const deletePlaylist = async (id, playlistDispatch) => {
     
     try {
-        await axios.delete(`http://localhost:5000/api/playlists/${id}`);
+        await axios.delete(`/api/playlists/${id}`);
         playlistDispatch({
             type: DELETE_PLAYLIST,
             payload: id

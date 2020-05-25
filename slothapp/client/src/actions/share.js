@@ -8,7 +8,7 @@ import {
 // Get shared playlists action
 export const getSharedPlaylists = async (shareDispatch) => {
     try {
-        const res = await axios.get('http://localhost:5000/api/shared');
+        const res = await axios.get('/api/shared');
         shareDispatch({
             type: SHARE_PLAYLIST,
             payload: res.data
@@ -31,7 +31,7 @@ export const sharePlaylist = async (id, user_name, shareDispatch) => {
     const body = JSON.stringify({ shared_user: user_name });
 
     try {
-        await axios.post(`http://localhost:5000/api/playlists/${id}/share`, body, config);
+        await axios.post(`/api/playlists/${id}/share`, body, config);
         shareDispatch({
             type: SHARE_PLAYLIST,
             payload: [] // För att inte skriva över med svar från API
