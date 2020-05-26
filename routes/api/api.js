@@ -125,7 +125,7 @@ router.post('/users/login', [
                     }
                     jwt.sign(payload, 
                         process.env.SLOTH_TOKEN,
-                        { expiresIn: 360000 },
+                        { expiresIn: 3600 },
                         (err, token) => {
                             if(err) return res.send(err);
                             return res.json({ token });
