@@ -92,9 +92,9 @@ label {
   font-size: 1.2rem;
 }
 .btn.btn-red {
-  background-color: #ea5455;
-  color: #eeeeee;
-  border: 1px solid #ea5455;
+  background-color: #c74041;
+  color: #f4f4f4;
+  border: 1px solid #c74041;
 }
 .btn-delete {
   border: none;
@@ -131,7 +131,7 @@ label {
 }
 
 .alert.alert-danger {
-  background-color: #ea5455;
+  background-color: #c74041;
   color: #eeeeee;
 }
 
@@ -155,7 +155,7 @@ label {
 .form-header {
   font-family: "Ubuntu", sans-serif;
   font-weight: lighter;
-  color: #ea5455;
+  color: #c74041;
   font-size: 2.2rem;
   margin: 20px 0 20px 0;
 }
@@ -188,7 +188,7 @@ label {
 .form input[type='url']:focus,
 .form select:focus,
 .form textarea:focus {
-  outline: 2px solid #ea5455;
+  outline: 2px solid #c74041;
 }
 
 .form input[type='submit'] {
@@ -348,7 +348,7 @@ img {
 }
 
 .landing i {
-  color: #ea5455;
+  color: #c74041;
   font-size: 0.9rem;
   text-shadow: none;
 }
@@ -672,7 +672,7 @@ img {
   cursor: pointer;
 }
 .player-btn:focus {
-    outline: none;
+    outline: 1px solid #c74041;
 }
 .fas.fa-play-circle, .fas.fa-pause-circle {
   font-size: 2rem;
@@ -756,7 +756,7 @@ img {
     width: 40%;
   }
   .header-div {
-    margin-bottom: auto 0 auto 0;
+    margin: auto 0 auto 0;
   }
   .header-div h1 {
     font-size: 1rem;

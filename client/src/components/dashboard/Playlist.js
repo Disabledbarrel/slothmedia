@@ -144,9 +144,9 @@ const Playlist = () => {
                                             onMouseUp={e => handleSeekMouseUp(e)}
                                         />
                                         <div className="flex-btns">
-                                            <button onClick={e => playPrevSong(index)} className="player-btn"><i className="fas fa-step-backward"></i></button>
-                                            <button onClick={e => handlePlayPause(playing)} className="player-btn">{playing ? <i className="fas fa-pause-circle"></i> : <i className="fas fa-play-circle"></i>}</button>
-                                            <button onClick={e => playNextSong(index)} className="player-btn"><i className="fas fa-step-forward"></i></button>
+                                            <button onClick={e => playPrevSong(index)} className="player-btn" title="play previous"><i className="fas fa-step-backward"></i></button>
+                                            <button onClick={e => handlePlayPause(playing)} className="player-btn" title="play/pause song">{playing ? <i className="fas fa-pause-circle"></i> : <i className="fas fa-play-circle"></i>}</button>
+                                            <button onClick={e => playNextSong(index)} className="player-btn" title="play next"><i className="fas fa-step-forward"></i></button>
                                         </div>
                                     </div>
                                 </div>
