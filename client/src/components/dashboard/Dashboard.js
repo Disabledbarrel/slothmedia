@@ -33,7 +33,7 @@ const Dashboard = () => {
     if(!authData.isAuthenticated === true && !authData.loading) {
         return <Redirect to='/' />
     }
-    if(!loading && playlists !== undefined && shared_playlists !== undefined) {
+    if(!loading && playlists !== undefined && shared_playlists !== undefined && authData.user !== undefined && authData.user.avatar !== undefined) {
         return (
             <Fragment>
                 <section className="container">

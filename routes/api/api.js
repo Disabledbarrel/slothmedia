@@ -5,22 +5,38 @@ const jwt = require('jsonwebtoken');
 const gravatar = require('gravatar');
 const auth = require('../../middleware/auth');
 const { check, validationResult } = require('express-validator');
+require('dotenv').config();
 
 const router = express.Router();
 
 // Anslutning till databas
-const connection = mysql.createConnection({
-    host: process.env.SLOTH_HOST,
-    user: process.env.SLOTH_USER,
-    password: process.env.SLOTH_PASSWORD,
-    database: process.env.SLOTH_DATABASE
-});
+let connection;
 
-connection.connect(err => {
-    if(err) {
-        return err;
-    }
-});
+const handleDisconnect = () => {
+    connection = mysql.createConnection({
+        host: process.env.SLOTH_HOST,
+        user: process.env.SLOTH_USER,
+        password: process.env.SLOTH_PASSWORD,
+        database: process.env.SLOTH_DATABASE
+    });
+    
+    connection.connect(err => {
+        if(err) {
+            setTimeout(handleDisconnect, 2000);
+            return err;
+        }
+    });
+
+    connection.on('error', err => {
+        if(err.code === 'PROTOCOL_CONNECTION_LOST') {
+            handleDisconnect();
+        } else {
+            throw err;
+        }
+    });
+}
+
+handleDisconnect();
 
 // @route GET api/auth
 // @descr Load user
