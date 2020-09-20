@@ -15,8 +15,8 @@ function Navbar() {
     // Länkar
     const guestLinks = (
         <ul>
-            <li className="btn btn-dark btn-header"><Link to="/login" title="Go to the log in page">Sign in</Link></li>
-            <li className="btn btn-red btn-header"><Link to="/register" title="Go to the register page">Register</Link></li>
+            <li><Link to="/login" title="Go to the log in page" className="btn btn-dark btn-header">Sign in</Link></li>
+            <li><Link to="/register" title="Go to the register page" className="btn btn-red btn-header">Register</Link></li>
         </ul>
     );
     const authLinks = (
